@@ -32,6 +32,8 @@ spec:
           env:
             - name: NODE_ENV
               value: production
+            - name: NODE_OPTIONS
+              value: --no-node-snapshot
             - name: BACKSTAGE_TOKEN
               value: local-dev-token
             - name: GITHUB_TOKEN

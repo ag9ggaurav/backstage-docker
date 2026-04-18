@@ -77,7 +77,6 @@ RUN corepack enable && corepack prepare yarn@4.4.1 --activate
 
 WORKDIR /app
 RUN chown -R node:node /app
-USER node
 
 # ... inside the runtime stage ...
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -89,6 +88,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     g++ \
     && rm -rf /var/lib/apt/lists/*
 
+USER node
 # skeleton/ contains a stripped package.json tree (production deps only).
 # Reinstalling here gives a clean node_modules with no devDeps in the image.
 COPY --from=build --chown=node:node \

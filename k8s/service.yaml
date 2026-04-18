@@ -4,11 +4,10 @@ metadata:
   name: backstage
   namespace: backstage
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: backstage
   ports:
     - name: http
       port: 7007
       targetPort: 7007
-      nodePort: 30007

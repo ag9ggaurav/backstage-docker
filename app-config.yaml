@@ -1,6 +1,6 @@
 app:
   title: Scaffolded Backstage App
-  baseUrl: http://localhost:3000
+  baseUrl: https://79.135.120.213:30400/
 
 organization:
   name: My Company
@@ -12,7 +12,7 @@ backend:
   # auth:
   #   keys:
   #     - secret: ${BACKEND_SECRET}
-  baseUrl: http://localhost:7007
+  baseUrl: https://79.135.120.213:30400/
   listen:
     port: 7007
     # Uncomment the following host directive to bind to specific interfaces
@@ -94,6 +94,10 @@ auth:
   providers:
     # See https://backstage.io/docs/auth/guest/provider
     guest: {}
+    github:
+      development:
+        clientId: Ov23liTe0PC35EUUDBlI
+        clientSecret: ae6845ccd4367cd9f8f8776647f0673a4e0bb888
 
 scaffolder:
   # see https://backstage.io/docs/features/software-templates/configuration for software template options

@@ -14,16 +14,21 @@ log() { echo "==> $*"; }
 log "Building Docker image ($IMAGE) — this takes ~10 min on first run..."
 docker build -t "$IMAGE" .
 
-# ── 2. Load into rancher-desktop containerd ───────────────────────────────────
-# When rancher-desktop uses the dockerd backend, k3s uses Docker as its CRI.
-# Images built with `docker build` are directly visible to k3s — no load needed.
-# When rancher-desktop uses the containerd backend, we must load into k8s.io ns.
+# ── 2. Load image into the container runtime visible to k8s ───────────────────
+# kubeadm/containerd: images must be imported via ctr into the k8s.io namespace.
+# rancher-desktop (containerd backend): load via rdctl shell + nerdctl.
+# rancher-desktop (dockerd backend): Docker IS the CRI — no load needed.
+CONTAINERD_SOCK="/run/containerd/containerd.sock"
 K3S_SOCK="/run/k3s/containerd/containerd.sock"
-if rdctl shell -- test -S "$K3S_SOCK" 2>/dev/null; then
-  log "containerd backend detected — loading image into k8s.io namespace..."
+
+if [ -S "$CONTAINERD_SOCK" ]; then
+  log "kubeadm/containerd detected — importing image into k8s.io namespace..."
+  docker save "$IMAGE" | sudo ctr --namespace k8s.io images import -
+elif command -v rdctl &>/dev/null && rdctl shell -- test -S "$K3S_SOCK" 2>/dev/null; then
+  log "rancher-desktop (containerd) detected — loading via nerdctl..."
   docker save "$IMAGE" | rdctl shell -- nerdctl --namespace k8s.io load
 else
-  log "dockerd backend detected — docker image is already visible to k3s (skipping load)."
+  log "dockerd CRI detected — docker image already visible to k8s (skipping load)."
 fi
 
 # ── 3. Optional: wire Grafana token ───────────────────────────────────────────

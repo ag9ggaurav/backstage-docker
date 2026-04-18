@@ -4,7 +4,7 @@
 # The install layer in stage 2 is only invalidated when those files change,
 # not when application source changes.
 ################################################################################
-FROM node:20-alpine AS packages
+FROM node:20-slim AS packages
 
 WORKDIR /app
 
@@ -17,10 +17,15 @@ RUN find packages ! -name "package.json" -mindepth 2 -maxdepth 2 -exec rm -rf {}
 
 ################################################################################
 # Stage 2 – Full install + backend build
+# node:20-slim is Debian (glibc) — isolated-vm compiles and links against glibc.
 ################################################################################
-FROM node:20-alpine AS build
+FROM node:20-slim AS build
 
-RUN apk add --no-cache g++ make python3 git
+RUN apt-get update && apt-get install -y --no-install-recommends \
+  build-essential \
+  python3 \
+  git \
+  && rm -rf /var/lib/apt/lists/*
 
 RUN corepack enable && corepack prepare yarn@4.4.1 --activate
 
@@ -49,10 +54,14 @@ RUN mkdir -p packages/backend/dist/skeleton packages/backend/dist/bundle && \
 
 ################################################################################
 # Stage 3 – Runtime image (production deps only, no devDeps)
+# Must stay Debian (glibc) to match the isolated-vm binary compiled in stage 2.
 ################################################################################
-FROM node:20-alpine AS runtime
+FROM node:20-slim AS runtime
 
-RUN apk add --no-cache ca-certificates
+RUN apt-get update && apt-get install -y --no-install-recommends \
+  ca-certificates \
+  && rm -rf /var/lib/apt/lists/*
+
 RUN corepack enable && corepack prepare yarn@4.4.1 --activate
 
 WORKDIR /app

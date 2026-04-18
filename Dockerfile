@@ -4,7 +4,7 @@
 # The install layer in stage 2 is only invalidated when those files change,
 # not when application source changes.
 ################################################################################
-FROM node:20.11.1-slim AS packages
+FROM node:22-bookworm-slim AS packages
 
 WORKDIR /app
 
@@ -19,12 +19,23 @@ RUN find packages ! -name "package.json" -mindepth 2 -maxdepth 2 -exec rm -rf {}
 # Stage 2 – Full install + backend build
 # node:20.11.1-slim is Debian (glibc) — isolated-vm compiles and links against glibc.
 ################################################################################
-FROM node:20.11.1-slim AS build
+FROM node:22-bookworm-slim AS build
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get install -y \
   build-essential \
   python3 \
+  python3-dev \
+  python-is-python3 \
+  linux-libc-dev \
+  libgcc-12-dev \
+  libstdc++-12-dev \
+  libatomic1 \
+  libbrotli-dev \
+  libnghttp2-dev \
+  libc-ares-dev \
   git \
+  pkg-config \
+  ca-certificates \
   && rm -rf /var/lib/apt/lists/*
 
 RUN corepack enable && corepack prepare yarn@4.4.1 --activate
@@ -56,7 +67,7 @@ RUN mkdir -p packages/backend/dist/skeleton packages/backend/dist/bundle && \
 # Stage 3 – Runtime image (production deps only, no devDeps)
 # Must stay Debian (glibc) to match the isolated-vm binary compiled in stage 2.
 ################################################################################
-FROM node:20.11.1-slim AS runtime
+FROM node:22-bookworm-slim AS runtime
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
   ca-certificates \

@@ -41,7 +41,7 @@ COPY --from=packages --chown=node:node /app ./
 # builds. When yarn.lock changes (new package added), only the new package is
 # fetched from the network; everything else is served from the host-side cache.
 RUN --mount=type=cache,id=yarn-berry-cache,target=/tmp/yarn-global,uid=1000,gid=1000 \
-    YARN_GLOBAL_FOLDER=/tmp/yarn-global yarn install --immutable
+    YARN_GLOBAL_FOLDER=/tmp/yarn-global yarn install --immutable --inline-builds
 
 # Copy full source AFTER install so source-only changes hit the install cache
 COPY --chown=node:node . .

@@ -79,6 +79,16 @@ WORKDIR /app
 RUN chown -R node:node /app
 USER node
 
+# ... inside the runtime stage ...
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    python3 \
+    python3-dev \
+    gcc \
+    make \
+    g++ \
+    && rm -rf /var/lib/apt/lists/*
+
 # skeleton/ contains a stripped package.json tree (production deps only).
 # Reinstalling here gives a clean node_modules with no devDeps in the image.
 COPY --from=build --chown=node:node \

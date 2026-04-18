@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vivah Parichay Patra – Anand Gaurav</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Cinzel:wght@400;600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Poppins',sans-serif;background:linear-gradient(135deg,#1a0a2e 0%,#2d1250 40%,#1a3a2e 100%);color:#3a2a1a;min-height:100vh;padding:30px 16px}
+.page{max-width:860px;margin:0 auto;background:linear-gradient(160deg,#fffdf5 0%,#fff8ec 60%,#f5f0ff 100%);border-radius:12px;box-shadow:0 20px 80px rgba(0,0,0,.5),0 0 0 1px rgba(200,151,58,.4),inset 0 1px 0 rgba(255,255,255,.9);overflow:hidden;position:relative}
+.page::before{content:'';position:absolute;inset:0;border-radius:12px;padding:2px;background:linear-gradient(135deg,#f5c842,#c8973a,#9b59b6,#c8973a,#f5c842);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;z-index:10}
+.corner{position:absolute;font-size:2.2rem;color:#c8973a;pointer-events:none;line-height:1;z-index:11;opacity:.7}
+.tl{top:8px;left:10px}.tr{top:8px;right:10px;transform:scaleX(-1)}.bl{bottom:8px;left:10px;transform:scaleY(-1)}.br{bottom:8px;right:10px;transform:scale(-1)}
+.header{background:linear-gradient(135deg,#1a0a2e 0%,#4a1580 40%,#1a3a2e 80%,#0d2818 100%);padding:32px 20px 0;text-align:center;position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(200,151,58,.25) 0%,transparent 70%)}
+.header::after{content:'';display:block;height:4px;background:linear-gradient(90deg,transparent,#f5c842,#c8973a,#9b59b6,#c8973a,#f5c842,transparent);margin-top:18px}
+.om{font-size:1.7rem;color:#f5c842;letter-spacing:6px;display:block;margin-bottom:6px;text-shadow:0 0 20px rgba(245,200,66,.5)}
+.header h1{font-family:'Cinzel',serif;font-size:2rem;color:#fff;letter-spacing:4px;text-shadow:0 2px 12px rgba(0,0,0,.4)}
+.subtitle{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.05rem;color:#e8c97a;margin:5px 0 18px;opacity:.9}
+.intro{display:flex;gap:28px;padding:32px 36px 24px;border-bottom:1px solid rgba(200,151,58,.25);flex-wrap:wrap;background:linear-gradient(180deg,rgba(245,192,255,.06) 0%,transparent 100%)}
+.photo-col{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:10px}
+.pframe{width:190px;height:240px;border:3px solid transparent;border-radius:10px;overflow:hidden;box-shadow:0 8px 32px rgba(100,0,180,.25),0 0 0 3px #c8973a,0 0 0 6px rgba(200,151,58,.15);background:#f5e6c8}
+.pframe img{width:100%;height:100%;object-fit:cover;object-position:center center}
+.badge{background:linear-gradient(90deg,#1a0a2e,#6b21a8,#1a0a2e);color:#f5c842;font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:2px;padding:5px 16px;border-radius:20px;border:1px solid rgba(245,200,66,.3);box-shadow:0 2px 12px rgba(107,33,168,.4)}
+.nb{flex:1;min-width:220px}
+.name{font-family:'Cinzel',serif;font-size:2rem;color:#2d0a5e;margin-bottom:3px;background:linear-gradient(135deg,#7b3f00,#4a1580);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.tag{font-family:'Cormorant Garamond',serif;font-style:italic;color:#6b4c1e;font-size:1rem;margin-bottom:10px;padding-bottom:12px;border-bottom:1px dashed rgba(200,151,58,.4)}
+.veg-badge{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(90deg,#e8f5e9,#f1fff1);border:1px solid #66bb6a;color:#2e7d32;font-size:.73rem;font-weight:600;padding:4px 13px;border-radius:20px;margin-bottom:14px;box-shadow:0 1px 6px rgba(102,187,106,.2)}
+.qf{display:grid;grid-template-columns:1fr 1fr;gap:8px 20px}
+.qr{display:flex;gap:6px;font-size:.81rem}
+.ql{color:#7b3f00;font-weight:600;white-space:nowrap;min-width:82px}
+.body{padding:0 36px 30px}
+.sec{margin-top:26px}
+.st{display:flex;align-items:center;gap:10px;font-family:'Cinzel',serif;font-size:.88rem;letter-spacing:1.5px;color:#4a1580;margin-bottom:13px;font-weight:600}
+.st::before,.st::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,#9b59b6,#c8973a,transparent)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:9px 24px}
+.ir{display:flex;gap:8px;font-size:.82rem;padding:7px 11px;border-radius:6px;border-left:3px solid #9b59b6;background:linear-gradient(90deg,rgba(155,89,182,.07),rgba(200,151,58,.05))}
+.ir:nth-child(even){border-left-color:#c8973a;background:linear-gradient(90deg,rgba(200,151,58,.08),rgba(155,89,182,.04))}
+.il{color:#6b21a8;font-weight:600;white-space:nowrap;min-width:110px}
+.ctc{background:linear-gradient(135deg,#1a0a2e 0%,#6b21a8 50%,#1a3a2e 100%);border-radius:10px;padding:16px 24px;color:#fff;display:flex;align-items:center;gap:16px;margin-top:14px;box-shadow:0 4px 20px rgba(107,33,168,.35)}
+.ctc .ico{font-size:2.2rem}
+.cl{font-size:.72rem;opacity:.75;letter-spacing:1.5px;color:#e8c97a}
+.cv{font-family:'Cinzel',serif;font-size:1.5rem;color:#f5c842;text-shadow:0 0 12px rgba(245,200,66,.4)}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.pill{font-size:.76rem;padding:5px 13px;border-radius:20px;font-weight:500}
+.pill:nth-child(1){background:linear-gradient(90deg,#e8f5e9,#f1fff1);border:1px solid #66bb6a;color:#1b5e20}
+.pill:nth-child(2){background:linear-gradient(90deg,#fff3e0,#fff8f0);border:1px solid #c8973a;color:#7b3f00}
+.pill:nth-child(3){background:linear-gradient(90deg,#f3e5f5,#fce4ff);border:1px solid #9b59b6;color:#4a148c}
+.pill:nth-child(4){background:linear-gradient(90deg,#fff3e0,#fff8f0);border:1px solid #c8973a;color:#7b3f00}
+.pill:nth-child(5){background:linear-gradient(90deg,#e8eaf6,#ede7f6);border:1px solid #5c6bc0;color:#1a237e}
+.pill:nth-child(6){background:linear-gradient(90deg,#e0f7fa,#e0ffff);border:1px solid #26c6da;color:#006064}
+.pill:nth-child(7){background:linear-gradient(90deg,#fce4ec,#fff0f5);border:1px solid #ec407a;color:#880e4f}
+.pill:nth-child(8){background:linear-gradient(90deg,#f3e5f5,#fce4ff);border:1px solid #9b59b6;color:#4a148c}
+.gg{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:12px}
+.gf{border-radius:10px;overflow:hidden;box-shadow:0 6px 24px rgba(107,33,168,.2);border:2px solid transparent;background:linear-gradient(#fff,#fff) padding-box,linear-gradient(135deg,#f5c842,#9b59b6,#c8973a) border-box;height:480px}
+.gf img{width:100%;height:100%;display:block;object-fit:cover;object-position:center top}
+.footer{background:linear-gradient(135deg,#1a0a2e 0%,#4a1580 40%,#1a3a2e 80%,#0d2818 100%);padding:18px 36px;text-align:center;color:#e8c97a;font-size:.82rem;font-family:'Cormorant Garamond',serif;font-style:italic;margin-top:28px;position:relative}
+.footer::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#f5c842,#9b59b6,#f5c842,transparent)}
+.footer strong{font-family:'Cinzel',serif;font-style:normal;color:#f5c842}
+@media print{body{background:#fff!important;padding:0!important}.page{box-shadow:none!important;border-radius:0!important;max-width:100%!important}}
+@media(max-width:620px){.intro{flex-direction:column;align-items:center}.qf,.g2,.gg{grid-template-columns:1fr}.body,.intro{padding-left:18px;padding-right:18px}.header h1{font-size:1.5rem}}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="corner tl">❧</div>
+  <div class="corner tr">❧</div>
+  <div class="corner bl">❧</div>
+  <div class="corner br">❧</div>
+
+  <div class="header">
+    <span class="om">ॐ &nbsp; श्री गणेशाय नमः &nbsp; ॐ</span>
+    <h1>Vivah Parichay Patra</h1>
+    <div class="subtitle">विवाह परिचय पत्र &nbsp;•&nbsp; Biodata for Sacred Union</div>
+  </div>
+
+  <div class="intro">
+    <div class="photo-col">
+      <div class="pframe">
+        <img src="https://raw.githubusercontent.com/observesimple-jpg/personal/main/WhatsApp%20Image%202026-03-29%20at%2008.49.52.jpeg"
+             alt="Anand Gaurav"
+             crossorigin="anonymous">
+      </div>
+      <div class="badge">ELIGIBLE BACHELOR</div>
+    </div>
+    <div class="nb">
+      <div class="name">Anand Gaurav</div>
+      <div class="tag">"Educated, Cultured &amp; Rooted in Dharma"</div>
+      <div class="veg-badge">🌿 Pure Vegetarian</div>
+      <div class="qf">
+        <div class="qr"><span class="ql">Date of Birth</span><span>20 March 1998</span></div>
+        <div class="qr"><span class="ql">Birth Time</span><span>05:45 hrs</span></div>
+        <div class="qr"><span class="ql">Birth Place</span><span>Bihta, Patna (Bihar)</span></div>
+        <div class="qr"><span class="ql">Religion</span><span>Hindu</span></div>
+        <div class="qr"><span class="ql">Caste</span><span>Bhumihar</span></div>
+        <div class="qr"><span class="ql">Gotra</span><span>Savarna</span></div>
+        <div class="qr"><span class="ql">Height</span><span>170 cm (5′ 7″)</span></div>
+        <div class="qr"><span class="ql">Weight</span><span>62 kg</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <div class="sec">
+      <div class="st">🎓 &nbsp; Educational Qualifications</div>
+      <div class="g2">
+        <div class="ir"><span class="il">10+2 (CBSE)</span><span>96% — Distinction ✦</span></div>
+        <div class="ir"><span class="il">Graduation</span><span>B.Tech – Computer Science, Pune University</span></div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="st">💼 &nbsp; Professional Profile</div>
+      <div class="g2">
+        <div class="ir"><span class="il">Designation</span><span>Senior Analyst</span></div>
+        <div class="ir"><span class="il">Current Company</span><span>Deloitte, Pune</span></div>
+        <div class="ir"><span class="il">Previous Company</span><span>Nielsen (6+ Years Experience)</span></div>
+        <div class="ir"><span class="il">Total Experience</span><span>6+ Years in IT Industry</span></div>
+      </div>
+      <div class="ctc">
+        <div class="ico">💰</div>
+        <div><div class="cl">ANNUAL PACKAGE (CTC)</div><div class="cv">₹ 32 Lakhs Per Annum</div></div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="st">👨‍👩‍👦 &nbsp; Family Details</div>
+      <div class="g2">
+        <div class="ir"><span class="il">Father</span><span>Birendra Kumar — Master Warrant Officer, Indian Air Force</span></div>
+        <div class="ir"><span class="il">Mother</span><span>Homemaker (Devoted &amp; Caring)</span></div>
+        <div class="ir"><span class="il">Brother</span><span>Software Engineer, Groove Company, Pune</span></div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="st">🏡 &nbsp; Residential Details</div>
+      <div class="g2">
+        <div class="ir"><span class="il">Present Residence</span><span>Pune — Own Flat</span></div>
+        <div class="ir"><span class="il">Permanent Address</span><span>Bihta, Patna — Own House</span></div>
+        <div class="ir"><span class="il">Ancestral Village</span><span>Kanchanpur, Bihta, Patna</span></div>
+        <div class="ir"><span class="il">Post / District</span><span>Post: Bihta &nbsp;|&nbsp; Dist: Patna (Bihar)</span></div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="st">🪷 &nbsp; Values &amp; Personality</div>
+      <div class="pills">
+        <span class="pill">🌿 Pure Vegetarian</span>
+        <span class="pill">🙏 Dharmik</span>
+        <span class="pill">📖 Ramayan Paath (Every Tuesday)</span>
+        <span class="pill">🏛️ Temple-Going</span>
+        <span class="pill">👨‍💻 Senior Tech Professional</span>
+        <span class="pill">✈️ Loves Travelling</span>
+        <span class="pill">🤝 Family-Oriented</span>
+        <span class="pill">🎓 Highly Educated</span>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="st">📸 &nbsp; Gallery</div>
+      <div class="gg">
+        <div class="gf">
+          <img src="https://raw.githubusercontent.com/observesimple-jpg/personal/main/WhatsApp%20Image%202026-03-29%20at%2008.53.31.jpeg"
+               alt="Mt. Fuji Japan"
+               crossorigin="anonymous">
+        </div>
+        <div class="gf">
+          <img src="https://raw.githubusercontent.com/observesimple-jpg/personal/main/WhatsApp%20Image%202026-03-29%20at%2008.51.49.jpeg"
+               alt="Prague Cathedral"
+               crossorigin="anonymous">
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <strong>Contact for Alliance:</strong> &nbsp; Birendra Kumar (Father) &nbsp;•&nbsp; 📞 9996532470 &nbsp;•&nbsp;
+    Vill: Kanchanpur, Post: Bihta, Dist: Patna, Bihar &nbsp;•&nbsp;
+    "शुभ विवाह के लिए सादर आमंत्रित"
+  </div>
+
+</div>
+</body>
+</html>

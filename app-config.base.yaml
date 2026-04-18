@@ -50,3 +50,35 @@ techdocs:
     type: 'local' # Alternatives - 'googleGcs' or 'awsS3'. Read documentation for using alternatives.
 
 integrations:
+
+proxy:
+  '/prometheus/api':
+    target: http://prometheus.monitoring.svc:9090/api/v1/
+    changeOrigin: true
+    secure: false
+  '/grafana/api':
+    target: http://grafana.monitoring.svc:3000/
+    changeOrigin: true
+    secure: false
+
+prometheus:
+  proxyPath: /prometheus/api
+  uiUrl: http://prometheus.monitoring.svc:9090
+
+grafana:
+  domain: http://grafana.monitoring.svc:3000
+  unifiedAlerting: false
+
+# The backend plugin is only enabled when ENABLE_DORA_SCORECARD=true is set.
+doraScorecard:
+  github:
+    token: replace-me
+    org: hymdall
+  database:
+    client: pg
+    connection:
+      host: localhost
+      port: 5432
+      user: backstage
+      password: backstage
+  syncSchedule: '0 */6 * * *'

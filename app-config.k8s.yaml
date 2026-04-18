@@ -1,0 +1,30 @@
+app:
+  # NodePort 30007 is how the browser reaches Backstage
+  baseUrl: http://localhost:30007
+
+backend:
+  baseUrl: http://localhost:30007
+  listen: ':7007'
+
+proxy:
+  # kube-prometheus-stack services (in-cluster DNS)
+  '/prometheus/api':
+    target: http://kube-prometheus-stack-prometheus.prometheus.svc.cluster.local:9090/api/v1/
+    changeOrigin: true
+    secure: false
+  '/grafana/api':
+    target: http://kube-prometheus-stack-grafana.prometheus.svc.cluster.local:80/
+    changeOrigin: true
+    secure: false
+    headers:
+      Authorization: Bearer ${GRAFANA_TOKEN}
+
+prometheus:
+  proxyPath: /prometheus/api
+  # Browser accesses Prometheus via NodePort
+  uiUrl: http://localhost:30090
+
+grafana:
+  # Browser accesses Grafana via NodePort
+  domain: http://localhost:31862
+  unifiedAlerting: false

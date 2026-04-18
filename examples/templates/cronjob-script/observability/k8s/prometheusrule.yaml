@@ -1,0 +1,46 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: ${{ values.name }}-cronjob
+  namespace: ${{ values.namespace }}
+  labels:
+    app: ${{ values.name }}
+    release: kube-prometheus-stack
+spec:
+  groups:
+    - name: ${{ values.name }}.cronjob.rules
+      rules:
+        - alert: CronJobFailed
+          expr: |
+            kube_job_failed{namespace="${{ values.namespace }}", job_name=~"${{ values.name }}-.*"} > 0
+          for: 1m
+          labels:
+            severity: critical
+            service: ${{ values.name }}
+          annotations:
+            summary: "CronJob ${{ values.name }} failed"
+            description: "Job {{ $labels.job_name }} has failed in namespace ${{ values.namespace }}."
+
+        - alert: CronJobRunningTooLong
+          expr: |
+            time() - kube_job_status_start_time{namespace="${{ values.namespace }}", job_name=~"${{ values.name }}-.*"}
+            > ${{ values.expectedDurationSeconds }}
+            and kube_job_status_active{namespace="${{ values.namespace }}", job_name=~"${{ values.name }}-.*"} > 0
+          for: 5m
+          labels:
+            severity: warning
+            service: ${{ values.name }}
+          annotations:
+            summary: "CronJob ${{ values.name }} running too long"
+            description: "Job {{ $labels.job_name }} has been running for more than ${{ values.expectedDurationSeconds }}s."
+
+        - alert: CronJobNotCompleted
+          expr: |
+            absent(kube_job_status_completion_time{namespace="${{ values.namespace }}", job_name=~"${{ values.name }}-.*"})
+          for: 2h
+          labels:
+            severity: warning
+            service: ${{ values.name }}
+          annotations:
+            summary: "No completed ${{ values.name }} job in 2 hours"
+            description: "Expected a successful ${{ values.name }} run recently but none found."

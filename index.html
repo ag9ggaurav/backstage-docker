@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Abhishek Gaurav | Cloud & Backend Engineer</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+<header>
+  <h1>Abhishek Gaurav</h1>
+  <p class="subtitle">Cloud • DevOps • Backend Engineer</p>
+
+  <p class="contact">
+    📍 Pune, India •
+    📧 <a href="mailto:gauravabhishek234@gmail.com">gauravabhishek234@gmail.com</a> •
+    🔗 <a href="https://linkedin.com/in/abhishek-gaurav-aa87a61b4" target="_blank">LinkedIn</a>
+  </p>
+</header>
+
+<main>
+
+  <!-- ABOUT -->
+  <section>
+    <h2>About Me</h2>
+    <p>
+      DevOps and Backend Microservices Engineer with <strong>5+ years</strong> of experience
+      in product-based companies. Specialized in platform engineering, Kubernetes,
+      cloud integrations across <strong>AWS, Azure, and GCP</strong>, and building
+      scalable, production-grade systems.
+    </p>
+  </section>
+
+  <!-- SKILLS -->
+  <section>
+    <h2>Technical Skills</h2>
+    <ul class="skills">
+      <li>GoLang, Python, Node.js</li>
+      <li>Kubernetes, Docker, Kafka</li>
+      <li>AWS, Azure, GCP</li>
+      <li>Azure Functions, Cosmos DB</li>
+      <li>PostgreSQL, MySQL</li>
+      <li>CI/CD, GitHub Actions</li>
+      <li>Infrastructure as Code (ARM / Bicep)</li>
+      <li>Observability (Prometheus, Grafana, Datadog)</li>
+    </ul>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section>
+    <h2>Professional Experience</h2>
+
+    <div class="project">
+      <h3>SDE-2 — Gruve.ai (Oct 2024 – Present)</h3>
+      <ul>
+        <li>Built a <strong>GPU Cluster Manager</strong> in Go enabling dynamic GPU partitioning on Kubernetes (H100/A100)</li>
+        <li>Reduced GPU wastage by <strong>40%</strong>, saving ~$500K annually</li>
+        <li>Developed a scalable <strong>Observability Platform</strong> supporting 100+ microservices</li>
+        <li>Delivered <strong>Inference-as-a-Service</strong> for LLM workloads (1M+ requests/month)</li>
+        <li>Deployed Kubernetes clusters from scratch with RAID + MinIO NFS</li>
+      </ul>
+    </div>
+
+    <div class="project">
+      <h3>Senior Engineer — Harman (Mar 2024 – Aug 2024)</h3>
+      <ul>
+        <li>Integrated <strong>Microsoft Entra ID</strong> for secure authentication</li>
+        <li>Led R&D for enterprise claim submission systems</li>
+      </ul>
+    </div>
+
+    <div class="project">
+      <h3>Software Engineer — Uptycs (Dec 2020 – Feb 2024)</h3>
+      <ul>
+        <li>Built compliance microservices for AWS, GCP, and Azure</li>
+        <li>Implemented real-time misconfiguration alerts</li>
+        <li>Automated CloudFormation & ARM deployments</li>
+        <li>Developed auto-remediation using AWS Lambda & Azure Functions</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section>
+    <h2>Education</h2>
+    <p>
+      <strong>Bachelor of Engineering (Computer Science)</strong><br/>
+      Pune University — 9.47 / 10 SGPA
+    </p>
+  </section>
+
+  <!-- CERTIFICATIONS -->
+  <section>
+    <h2>Certifications</h2>
+    <ul>
+      <li>AWS Certified Solutions Architect</li>
+      <li>Automation Anywhere RPA Developer</li>
+      <li>HackerRank REST API Certified</li>
+      <li>Udemy Golang Developer</li>
+    </ul>
+  </section>
+
+  <!-- VISITOR COUNTER -->
+  <section class="counter">
+    <p>
+      👀 Visitor count:
+      <strong><span id="count">Loading...</span></strong>
+    </p>
+  </section>
+
+</main>
+
+<footer>
+  <p>
+    Built on Microsoft Azure • Cloud Resume Challenge
+  </p>
+</footer>
+
+<!-- ✅ SINGLE, CORRECT COUNTER SCRIPT -->
+<script>
+  fetch("https://ag-test2-dxd8f0b7freva6fp.canadacentral-01.azurewebsites.net/api/http_trigger")
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById("count").innerText = data.count;
+    })
+    .catch(err => {
+      console.error("Visitor counter error:", err);
+      document.getElementById("count").innerText = "N/A";
+    });
+</script>
+
+</body>
+</html>

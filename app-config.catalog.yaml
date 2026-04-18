@@ -23,3 +23,24 @@ catalog:
       target: ./examples/org.yaml
       rules:
         - allow: [User, Group]
+
+    # Observability-enabled service templates
+    - type: file
+      target: ./examples/templates/go-service/template.yaml
+      rules:
+        - allow: [Template]
+
+    - type: file
+      target: ./examples/templates/center-stage/template.yaml
+      rules:
+        - allow: [Template]
+
+    - type: file
+      target: ./examples/templates/cronjob-script/template.yaml
+      rules:
+        - allow: [Template]
+
+    - type: file
+      target: ./examples/templates/react-service/template.yaml
+      rules:
+        - allow: [Template]

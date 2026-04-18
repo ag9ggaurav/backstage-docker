@@ -1,0 +1,25 @@
+{% if values.ingressEnabled %}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ${{ values.serviceName }}
+  namespace: ${{ values.namespace }}
+  labels:
+    app: ${{ values.serviceName }}
+spec:
+  rules:
+    - host: ${{ values.ingressHost }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: ${{ values.serviceName }}
+                port:
+                  number: 8080
+{% else %}
+apiVersion: v1
+kind: List
+items: []
+{% endif %}

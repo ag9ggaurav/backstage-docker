@@ -58,6 +58,18 @@ import {
   EntityKubernetesContent,
   isKubernetesAvailable,
 } from '@backstage/plugin-kubernetes';
+import {
+  EntityPrometheusAlertCard,
+  EntityPrometheusContent,
+  EntityPrometheusGraphCard,
+  isPrometheusAvailable,
+} from '@roadiehq/backstage-plugin-prometheus';
+import {
+  EntityGrafanaAlertsCard,
+  EntityGrafanaDashboardsCard,
+  EntityOverviewDashboardViewer,
+} from '@backstage-community/plugin-grafana';
+import { DoraScorecard } from '@jikwan/backstage-plugin-dora-scorecard';
 
 const techdocsContent = (
   <EntityTechdocsContent>
@@ -130,17 +142,51 @@ const overviewContent = (
   <Grid container spacing={3} alignItems="stretch">
     {entityWarningContent}
     <Grid item md={6}>
-      <EntityAboutCard variant="gridItem" />
+      <EntityAboutCard />
     </Grid>
     <Grid item md={6} xs={12}>
-      <EntityCatalogGraphCard variant="gridItem" height={400} />
+      <EntityCatalogGraphCard height={400} />
     </Grid>
 
     <Grid item md={4} xs={12}>
       <EntityLinksCard />
     </Grid>
     <Grid item md={8} xs={12}>
-      <EntityHasSubcomponentsCard variant="gridItem" />
+      <EntityHasSubcomponentsCard />
+    </Grid>
+  </Grid>
+);
+
+const serviceOverviewContent = (
+  <Grid container spacing={3} alignItems="stretch">
+    {entityWarningContent}
+    <Grid item md={6}>
+      <EntityAboutCard />
+    </Grid>
+    <Grid item md={6} xs={12}>
+      <EntityCatalogGraphCard height={400} />
+    </Grid>
+
+    <Grid item md={4} xs={12}>
+      <EntityLinksCard />
+    </Grid>
+    <Grid item md={8} xs={12}>
+      <EntityHasSubcomponentsCard />
+    </Grid>
+
+    <EntitySwitch>
+      <EntitySwitch.Case if={isPrometheusAvailable}>
+        <Grid item md={6} xs={12}>
+          <EntityPrometheusGraphCard />
+        </Grid>
+        <Grid item md={6} xs={12}>
+          <EntityPrometheusAlertCard />
+        </Grid>
+      </EntitySwitch.Case>
+    </EntitySwitch>
+
+    <Grid item xs={12}>
+      <EntityOverviewDashboardViewer />
     </Grid>
   </Grid>
 );
@@ -148,7 +194,7 @@ const overviewContent = (
 const serviceEntityPage = (
   <EntityLayout>
     <EntityLayout.Route path="/" title="Overview">
-      {overviewContent}
+      {serviceOverviewContent}
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/ci-cd" title="CI/CD">
@@ -161,6 +207,33 @@ const serviceEntityPage = (
       if={isKubernetesAvailable}
     >
       <EntityKubernetesContent />
+    </EntityLayout.Route>
+
+    <EntityLayout.Route
+      path="/prometheus"
+      title="Prometheus"
+      if={isPrometheusAvailable}
+    >
+      <EntityPrometheusContent />
+    </EntityLayout.Route>
+
+    <EntityLayout.Route path="/grafana" title="Grafana">
+      <Grid container spacing={3} alignItems="stretch">
+        <Grid item md={6} xs={12}>
+          <EntityGrafanaDashboardsCard />
+        </Grid>
+        <Grid item md={6} xs={12}>
+          <EntityGrafanaAlertsCard />
+        </Grid>
+      </Grid>
+    </EntityLayout.Route>
+
+    <EntityLayout.Route path="/dora" title="DORA Metrics">
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <DoraScorecard />
+        </Grid>
+      </Grid>
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/api" title="API">
@@ -177,10 +250,10 @@ const serviceEntityPage = (
     <EntityLayout.Route path="/dependencies" title="Dependencies">
       <Grid container spacing={3} alignItems="stretch">
         <Grid item md={6}>
-          <EntityDependsOnComponentsCard variant="gridItem" />
+          <EntityDependsOnComponentsCard />
         </Grid>
         <Grid item md={6}>
-          <EntityDependsOnResourcesCard variant="gridItem" />
+          <EntityDependsOnResourcesCard />
         </Grid>
       </Grid>
     </EntityLayout.Route>
@@ -212,10 +285,10 @@ const websiteEntityPage = (
     <EntityLayout.Route path="/dependencies" title="Dependencies">
       <Grid container spacing={3} alignItems="stretch">
         <Grid item md={6}>
-          <EntityDependsOnComponentsCard variant="gridItem" />
+          <EntityDependsOnComponentsCard />
         </Grid>
         <Grid item md={6}>
-          <EntityDependsOnResourcesCard variant="gridItem" />
+          <EntityDependsOnResourcesCard />
         </Grid>
       </Grid>
     </EntityLayout.Route>
@@ -268,7 +341,7 @@ const apiPage = (
           <EntityAboutCard />
         </Grid>
         <Grid item md={6} xs={12}>
-          <EntityCatalogGraphCard variant="gridItem" height={400} />
+          <EntityCatalogGraphCard height={400} />
         </Grid>
         <Grid item md={4} xs={12}>
           <EntityLinksCard />
@@ -300,10 +373,10 @@ const userPage = (
       <Grid container spacing={3}>
         {entityWarningContent}
         <Grid item xs={12} md={6}>
-          <EntityUserProfileCard variant="gridItem" />
+          <EntityUserProfileCard />
         </Grid>
         <Grid item xs={12} md={6}>
-          <EntityOwnershipCard variant="gridItem" />
+          <EntityOwnershipCard />
         </Grid>
       </Grid>
     </EntityLayout.Route>
@@ -316,10 +389,10 @@ const groupPage = (
       <Grid container spacing={3}>
         {entityWarningContent}
         <Grid item xs={12} md={6}>
-          <EntityGroupProfileCard variant="gridItem" />
+          <EntityGroupProfileCard />
         </Grid>
         <Grid item xs={12} md={6}>
-          <EntityOwnershipCard variant="gridItem" />
+          <EntityOwnershipCard />
         </Grid>
         <Grid item xs={12} md={6}>
           <EntityMembersListCard />
@@ -338,28 +411,27 @@ const systemPage = (
       <Grid container spacing={3} alignItems="stretch">
         {entityWarningContent}
         <Grid item md={6}>
-          <EntityAboutCard variant="gridItem" />
+          <EntityAboutCard />
         </Grid>
         <Grid item md={6} xs={12}>
-          <EntityCatalogGraphCard variant="gridItem" height={400} />
+          <EntityCatalogGraphCard height={400} />
         </Grid>
         <Grid item md={4} xs={12}>
           <EntityLinksCard />
         </Grid>
         <Grid item md={8}>
-          <EntityHasComponentsCard variant="gridItem" />
+          <EntityHasComponentsCard />
         </Grid>
         <Grid item md={6}>
           <EntityHasApisCard variant="gridItem" />
         </Grid>
         <Grid item md={6}>
-          <EntityHasResourcesCard variant="gridItem" />
+          <EntityHasResourcesCard />
         </Grid>
       </Grid>
     </EntityLayout.Route>
     <EntityLayout.Route path="/diagram" title="Diagram">
       <EntityCatalogGraphCard
-        variant="gridItem"
         direction={Direction.TOP_BOTTOM}
         title="System Diagram"
         height={700}
@@ -385,13 +457,13 @@ const domainPage = (
       <Grid container spacing={3} alignItems="stretch">
         {entityWarningContent}
         <Grid item md={6}>
-          <EntityAboutCard variant="gridItem" />
+          <EntityAboutCard />
         </Grid>
         <Grid item md={6} xs={12}>
-          <EntityCatalogGraphCard variant="gridItem" height={400} />
+          <EntityCatalogGraphCard height={400} />
         </Grid>
         <Grid item md={6}>
-          <EntityHasSystemsCard variant="gridItem" />
+          <EntityHasSystemsCard />
         </Grid>
       </Grid>
     </EntityLayout.Route>

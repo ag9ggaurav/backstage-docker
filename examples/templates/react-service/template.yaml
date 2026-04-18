@@ -1,0 +1,118 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: react-service-template
+  title: React / Node.js Service
+  description: Scaffolds a React frontend or Node.js backend with optional Prometheus observability
+  tags:
+    - react
+    - nodejs
+    - service
+    - observability
+spec:
+  owner: user:guest
+  type: service
+
+  parameters:
+    - title: Service Details
+      required:
+        - name
+        - namespace
+        - serviceType
+      properties:
+        name:
+          title: Service Name
+          type: string
+          description: Unique name (kebab-case, e.g. user-dashboard)
+          pattern: '^[a-z][a-z0-9-]*$'
+          ui:autofocus: true
+        namespace:
+          title: Kubernetes Namespace
+          type: string
+          default: default
+        description:
+          title: Description
+          type: string
+        serviceType:
+          title: Service Type
+          type: string
+          enum:
+            - react-frontend
+            - node-backend
+          default: node-backend
+        port:
+          title: Port
+          type: integer
+          default: 3000
+
+    - title: Repository
+      required:
+        - repoUrl
+      properties:
+        repoUrl:
+          title: Repository Location
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+
+    - title: Observability
+      properties:
+        enableObservability:
+          title: Enable Observability
+          type: boolean
+          default: false
+          description: >
+            Adds prom-client metrics (/metrics endpoint), Kubernetes ServiceMonitor,
+            PrometheusRule alerts, and a Grafana dashboard.
+          ui:widget: checkbox
+
+  steps:
+    - id: fetch-base
+      name: Fetch Base Skeleton
+      action: fetch:template
+      input:
+        url: ./skeleton
+        values:
+          name: ${{ parameters.name }}
+          namespace: ${{ parameters.namespace }}
+          description: ${{ parameters.description }}
+          serviceType: ${{ parameters.serviceType }}
+          port: ${{ parameters.port | default(3000) }}
+          enableObservability: ${{ parameters.enableObservability }}
+
+    - id: fetch-observability
+      name: Add Observability
+      if: ${{ parameters.enableObservability }}
+      action: fetch:template
+      input:
+        url: ./observability
+        values:
+          name: ${{ parameters.name }}
+          namespace: ${{ parameters.namespace }}
+          port: ${{ parameters.port | default(3000) }}
+
+    - id: publish
+      name: Publish to GitHub
+      action: publish:github
+      input:
+        allowedHosts: ['github.com']
+        description: ${{ parameters.description }}
+        repoUrl: ${{ parameters.repoUrl }}
+        defaultBranch: main
+
+    - id: register
+      name: Register in Catalog
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps['publish'].output.repoContentsUrl }}
+        catalogInfoPath: '/catalog-info.yaml'
+
+  output:
+    links:
+      - title: Repository
+        url: ${{ steps['publish'].output.remoteUrl }}
+      - title: Open in Catalog
+        icon: catalog
+        entityRef: ${{ steps['register'].output.entityRef }}

@@ -1,0 +1,198 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: center-stage-template
+  title: Center Stage
+  description: Scaffolds the Center Stage remote SSH access portal as a Go web application
+  tags:
+    - go
+    - ssh
+    - backstage
+    - kubernetes
+    - observability
+spec:
+  owner: user:guest
+  type: service
+
+  parameters:
+    - title: Service Identity
+      required:
+        - serviceName
+        - owner
+        - namespace
+        - environment
+      properties:
+        serviceName:
+          title: Service Name
+          type: string
+          default: center-stage
+          description: Unique service name in kebab-case
+          pattern: '^[a-z][a-z0-9-]*$'
+          ui:autofocus: true
+        owner:
+          title: Owner
+          type: string
+          description: Backstage owner for the generated component
+          ui:field: OwnerPicker
+        namespace:
+          title: Kubernetes Namespace
+          type: string
+          default: platform
+        environment:
+          title: Environment
+          type: string
+          default: prod
+          enum:
+            - prod
+            - staging
+
+    - title: Repository
+      required:
+        - repoName
+        - repoUrl
+        - defaultBranch
+      properties:
+        repoName:
+          title: Repository Name
+          type: string
+          default: center-stage
+          pattern: '^[a-z][a-z0-9-]*$'
+        repoOrg:
+          title: Repository Organization
+          type: string
+          default: hymdall
+          description: Keep this aligned with the selected repository owner
+        defaultBranch:
+          title: Default Branch
+          type: string
+          default: main
+        repoUrl:
+          title: Repository Location
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+
+    - title: Infrastructure
+      required:
+        - replicas
+        - cpuRequest
+        - memoryRequest
+        - ingressEnabled
+      properties:
+        replicas:
+          title: Replicas
+          type: integer
+          default: 1
+          minimum: 1
+        cpuRequest:
+          title: CPU Request
+          type: string
+          default: 100m
+        memoryRequest:
+          title: Memory Request
+          type: string
+          default: 128Mi
+        nodeSelectorKey:
+          title: Node Selector Key
+          type: string
+          default: gpu
+        nodeSelectorValue:
+          title: Node Selector Value
+          type: string
+          default: h200
+        ingressEnabled:
+          title: Enable Ingress
+          type: boolean
+          default: true
+          ui:widget: checkbox
+        ingressHost:
+          title: Ingress Host
+          type: string
+          default: ssh-access.internal.hymdall.com
+
+    - title: Secret And Key Storage
+      required:
+        - systemKeySecretName
+        - secretNamespace
+      properties:
+        systemKeySecretName:
+          title: System Key Secret Name
+          type: string
+          default: cato-system-key
+        secretNamespace:
+          title: Secret Namespace
+          type: string
+          default: platform
+
+    - title: Observability
+      required:
+        - enableMetrics
+        - grafanaDashboardUrl
+      properties:
+        enableMetrics:
+          title: Enable Metrics
+          type: boolean
+          default: true
+          ui:widget: checkbox
+        grafanaDashboardUrl:
+          title: Grafana Dashboard URL
+          type: string
+          default: http://grafana.monitoring.svc:3000/d/center-stage/center-stage?orgId=1&kiosk
+        alertsEnabled:
+          title: Enable Alerts
+          type: boolean
+          default: false
+          ui:widget: checkbox
+
+  steps:
+    - id: fetch-base
+      name: Fetch Center Stage Skeleton
+      action: fetch:template
+      input:
+        url: ./skeleton
+        values:
+          serviceName: ${{ parameters.serviceName }}
+          owner: ${{ parameters.owner }}
+          namespace: ${{ parameters.namespace }}
+          environment: ${{ parameters.environment }}
+          repoName: ${{ parameters.repoName }}
+          repoOrg: ${{ parameters.repoOrg }}
+          defaultBranch: ${{ parameters.defaultBranch }}
+          replicas: ${{ parameters.replicas }}
+          cpuRequest: ${{ parameters.cpuRequest }}
+          memoryRequest: ${{ parameters.memoryRequest }}
+          nodeSelectorKey: ${{ parameters.nodeSelectorKey }}
+          nodeSelectorValue: ${{ parameters.nodeSelectorValue }}
+          ingressEnabled: ${{ parameters.ingressEnabled }}
+          ingressHost: ${{ parameters.ingressHost }}
+          systemKeySecretName: ${{ parameters.systemKeySecretName }}
+          secretNamespace: ${{ parameters.secretNamespace }}
+          enableMetrics: ${{ parameters.enableMetrics }}
+          grafanaDashboardUrl: ${{ parameters.grafanaDashboardUrl }}
+          alertsEnabled: ${{ parameters.alertsEnabled }}
+
+    - id: publish
+      name: Publish to GitHub
+      action: publish:github
+      input:
+        allowedHosts: ['github.com']
+        description: Center Stage remote SSH access self-service portal
+        repoUrl: ${{ parameters.repoUrl }}
+        defaultBranch: ${{ parameters.defaultBranch }}
+
+    - id: register
+      name: Register in Catalog
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps['publish'].output.repoContentsUrl }}
+        catalogInfoPath: /catalog-info.yaml
+
+  output:
+    links:
+      - title: Repository
+        url: ${{ steps['publish'].output.remoteUrl }}
+      - title: Open in Catalog
+        icon: catalog
+        entityRef: ${{ steps['register'].output.entityRef }}

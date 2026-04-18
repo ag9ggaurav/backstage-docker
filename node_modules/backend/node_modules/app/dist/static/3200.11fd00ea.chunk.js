@@ -1,0 +1,12 @@
+"use strict";(self.webpackChunkapp=self.webpackChunkapp||[]).push([["3200"],{73971(e,t,n){n.d(t,{PrometheusGraphEntityWrapper:()=>w});var a=n(31085),i=n(77125),o=n(64947),r=n(58837),s=n(72501),l=n(62112),c=n(75202),p=n(56711),m=n(47250),d=n(89475);let h=`apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: example
+  description: example.com
+  annotations:
+    ANNOTATION: value
+spec:
+  type: website
+  lifecycle: production
+  owner: user:guest`,u=/^.*ANNOTATION.*$/m,g=h.match(u)[0],y=h.split("\n").findIndex(e=>u.test(e)),A=(0,r.A)(e=>({code:{borderRadius:6,margin:e.spacing(2,0),background:"dark"===e.palette.type?"#444":e.palette.common.white}}),{name:"BackstageMissingAnnotationEmptyState"});function x(e){let t,n,{annotation:r,readMoreUrl:u}=e,x=Array.isArray(r)?r:[r],f=A(),{t:N}=(0,m.i)(d.O);return(0,a.jsx)(p.p,{missing:"field",title:N("emptyState.missingAnnotation.title"),description:(t=x.length<=1,(0,a.jsxs)(a.Fragment,{children:["The ",t?"annotation":"annotations"," ",x.map(e=>(0,a.jsx)("code",{children:e})).reduce((e,t)=>(0,a.jsxs)(a.Fragment,{children:[e,", ",t]}))," ",t?"is":"are"," missing. You need to add the"," ",t?"annotation":"annotations"," to your component if you want to enable this tool."]})),action:(0,a.jsxs)(a.Fragment,{children:[(0,a.jsx)(s.A,{variant:"body1",children:N("emptyState.missingAnnotation.actionTitle")}),(0,a.jsx)(i.A,{className:f.code,children:(0,a.jsx)(l.z,{text:(n=x.map(e=>g.replace("ANNOTATION",e)).join("\n"),h.replace(g,n)),language:"yaml",showLineNumbers:!0,highlightedNumbers:Array.from(Array(x.length+1).keys(),e=>e+y),customStyle:{background:"inherit",fontSize:"115%"}})}),(0,a.jsx)(o.A,{color:"primary",component:c.N_,to:u||"https://backstage.io/docs/features/software-catalog/well-known-annotations",children:N("emptyState.missingAnnotation.readMore")})]})})}var f=n(77688),N=n(76928),j=n(30267),k=n(25547),b=n(78560);let w=({step:e=14,range:t={hours:1},graphType:n,enableQueryTemplating:i,query:o,title:r})=>{let{entity:s}=(0,N.tN)(),l=s.metadata.annotations?.[j.IB]||o;if(!l)return(0,a.jsx)(x,{annotation:j.IB,readMoreUrl:j.WG});i&&(l=(0,k.renderString)(l,{...s,entityRef:(0,b.U2)(s)}));let c=l?l.split(",").map(e=>e.split("|")):[];if(c.length>0){let[i,o]=c[0];return(0,a.jsx)(f.P,{dimension:o,query:i,range:t,step:e,graphType:n,title:r})}return(0,a.jsx)(a.Fragment,{})}}}]);
+//# sourceMappingURL=3200.11fd00ea.chunk.js.map

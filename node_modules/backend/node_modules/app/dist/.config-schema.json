@@ -1,0 +1,3792 @@
+{
+  "schemas": [
+    {
+      "packageName": "@backstage/cli",
+      "value": {
+        "$schema": "https://backstage.io/schema/config-v1",
+        "title": "@backstage/cli",
+        "type": "object",
+        "properties": {
+          "app": {
+            "type": "object",
+            "properties": {
+              "baseUrl": {
+                "type": "string",
+                "visibility": "frontend"
+              },
+              "title": {
+                "type": "string",
+                "visibility": "frontend"
+              },
+              "datadogRum": {
+                "type": "object",
+                "description": "Datadog RUM events configuration",
+                "properties": {
+                  "env": {
+                    "type": "string",
+                    "visibility": "frontend",
+                    "description": "Environment for Datadog RUM events"
+                  },
+                  "clientToken": {
+                    "type": "string",
+                    "visibility": "frontend",
+                    "description": "clientToken for Datadog RUM events"
+                  },
+                  "applicationId": {
+                    "type": "string",
+                    "visibility": "frontend",
+                    "description": "applicationId for Datadog RUM events"
+                  },
+                  "site": {
+                    "type": "string",
+                    "visibility": "frontend",
+                    "description": "site for Datadog RUM events"
+                  },
+                  "sessionSampleRate": {
+                    "type": "number",
+                    "visibility": "frontend",
+                    "description": "sample rate of Datadog RUM events"
+                  },
+                  "sessionReplaySampleRate": {
+                    "type": "number",
+                    "visibility": "frontend",
+                    "description": "sample rate of session replays based upon already sampled Datadog RUM events"
+                  }
+                },
+                "required": [
+                  "clientToken",
+                  "applicationId"
+                ]
+              },
+              "listen": {
+                "type": "object",
+                "description": "Listening configuration for local development",
+                "properties": {
+                  "host": {
+                    "type": "string",
+                    "visibility": "frontend",
+                    "description": "The host that the frontend should be bound to. Only used for local development."
+                  },
+                  "port": {
+                    "type": "number",
+                    "visibility": "frontend",
+                    "description": "The port that the frontend should be bound to. Only used for local development."
+                  }
+                }
+              },
+              "https": {
+                "type": "object",
+                "description": "Only used for local development. The https object is passed to webpack in order to enable using https on localhost.",
+                "properties": {
+                  "certificate": {
+                    "type": "object",
+                    "description": "Parent object containing certificate and the private key",
+                    "required": [
+                      "key",
+                      "cert"
+                    ],
+                    "properties": {
+                      "key": {
+                        "type": "string",
+                        "visibility": "secret",
+                        "description": "Https Certificate private key. Use $file to load in a file"
+                      },
+                      "cert": {
+                        "type": "string",
+                        "visibility": "secret",
+                        "description": "Https Certificate. Use $file to load in a file"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "path": "../../node_modules/@backstage/cli/package.json"
+    },
+    {
+      "packageName": "@backstage/plugin-user-settings",
+      "value": {
+        "$schema": "https://backstage.io/schema/config-v1",
+        "title": "@backstage/user-settings",
+        "type": "object",
+        "properties": {
+          "auth": {
+            "type": "object",
+            "properties": {
+              "providers": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "visibility": "frontend",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        }
+      },
+      "path": "../../node_modules/@backstage/plugin-user-settings/package.json"
+    },
+    {
+      "path": "../../node_modules/@backstage-community/plugin-grafana/config.d.ts",
+      "value": {
+        "type": "object",
+        "properties": {
+          "grafana": {
+            "type": "object",
+            "properties": {
+              "domain": {
+                "description": "Domain used by users to access Grafana web UI.\nExample: https://monitoring.eu.my-company.com/",
+                "visibility": "frontend",
+                "type": "string"
+              },
+              "proxyPath": {
+                "description": "Path to use for requests via the proxy, defaults to /grafana/api",
+                "visibility": "frontend",
+                "type": "string"
+              },
+              "unifiedAlerting": {
+                "description": "Is Grafana using unified alerting?",
+                "visibility": "frontend",
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "domain"
+            ]
+          }
+        },
+        "required": [
+          "grafana"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "packageName": "@backstage-community/plugin-grafana"
+    },
+    {
+      "path": "../../node_modules/@backstage/core-app-api/config.d.ts",
+      "value": {
+        "type": "object",
+        "properties": {
+          "app": {
+            "description": "Generic frontend configuration.",
+            "type": "object",
+            "properties": {
+              "baseUrl": {
+                "description": "The public absolute root URL that the frontend.",
+                "visibility": "frontend",
+                "type": "string"
+              },
+              "title": {
+                "description": "The title of the app, as shown in the Backstage web interface.",
+                "visibility": "frontend",
+                "type": "string"
+              },
+              "support": {
+                "description": "Information about support of this Backstage instance and how to contact the integrator team.",
+                "type": "object",
+                "properties": {
+                  "url": {
+                    "description": "The primary support url.",
+                    "visibility": "frontend",
+                    "type": "string"
+                  },
+                  "items": {
+                    "description": "A list of categorized support item groupings.",
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "title": {
+                          "description": "The title of the support item grouping.",
+                          "visibility": "frontend",
+                          "type": "string"
+                        },
+                        "icon": {
+                          "description": "An optional icon for the support item grouping.",
+                          "visibility": "frontend",
+                          "type": "string"
+                        },
+                        "links": {
+                          "description": "A list of support links for the Backstage instance inside this grouping.",
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "url": {
+                                "visibility": "frontend",
+                                "type": "string"
+                              },
+                              "title": {
+                                "visibility": "frontend",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "url"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "links",
+                        "title"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "items",
+                  "url"
+                ]
+              },
+              "routes": {
+                "type": "object",
+                "properties": {
+                  "bindings": {
+                    "description": "Maps external route references to regular route references. Both the\nkey and the value is expected to be on the form `<pluginId>.<routeId>`.\nIf the value is `false`, the route will be disabled even if it has a\ndefault mapping.",
+                    "deepVisibility": "frontend",
+                    "type": "object",
+                    "additionalProperties": {
+                      "anyOf": [
+                        {
+                          "const": false,
+                          "type": "boolean"
+                        },
+                        {
+                          "type": "string"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "required": [
+              "baseUrl"
+            ]
+          },
+          "backend": {
+            "description": "Generic backend configuration.",
+            "type": "object",
+            "properties": {
+              "baseUrl": {
+                "description": "The public absolute root URL that the backend is reachable at, from the browser's perspective.",
+                "visibility": "frontend",
+                "type": "string"
+              }
+            },
+            "required": [
+              "baseUrl"
+            ]
+          },
+          "organization": {
+            "description": "Configuration that provides information about the organization that the app is for.",
+            "type": "object",
+            "properties": {
+              "name": {
+                "description": "The name of the organization that the app belongs to.",
+                "visibility": "frontend",
+                "type": "string"
+              }
+            }
+          },
+          "homepage": {
+            "description": "This config was used by the HomepageTimer but has been replaced  by the HeaderWorldClock in the home plugin",
+            "deprecated": "in favor of the HeaderWorldClock which is found in the home plugin",
+            "type": "object",
+            "properties": {
+              "clocks": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "label": {
+                      "visibility": "frontend",
+                      "type": "string"
+                    },
+                    "timezone": {
+                      "visibility": "frontend",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "label",
+                    "timezone"
+                  ]
+                }
+              }
+            }
+          },
+          "auth": {
+            "description": "Configuration that provides information on available configured authentication providers.",
+            "type": "object",
+            "properties": {
+              "environment": {
+                "description": "The 'environment' attribute added as an optional parameter to have configurable environment value for `auth.providers`.\ndefault value: 'development'\noptional values: 'development' | 'production'",
+                "visibility": "frontend",
+                "type": "string"
+              }
+            }
+          },
+          "enableExperimentalRedirectFlow": {
+            "description": "Enable redirect authentication flow type, instead of a popup for authentication.",
+            "visibility": "frontend",
+            "type": "boolean"
+          },
+          "discovery": {
+            "description": "Discovery options.",
+            "visibility": "frontend",
+            "type": "object",
+            "properties": {
+              "endpoints": {
+                "description": "Endpoints\n\nA list of target baseUrls and the associated plugins.",
+                "visibility": "frontend",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "target": {
+                      "description": "The target baseUrl to use for the plugin\n\nCan be either a string or an object with internal and external keys. (Internal is used for the backend, external for the frontend)\nTargets with `{{pluginId}}` or `{{ pluginId }} in the url will be replaced with the pluginId.",
+                      "visibility": "frontend",
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "external": {
+                              "visibility": "frontend",
+                              "type": "string"
+                            }
+                          }
+                        },
+                        {
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "plugins": {
+                      "description": "Array of plugins which use the target baseUrl.",
+                      "visibility": "frontend",
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "plugins",
+                    "target"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "app",
+          "backend"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "packageName": "@backstage/core-app-api"
+    },
+    {
+      "path": "../../node_modules/@backstage/core-components/config.d.ts",
+      "value": {
+        "type": "object",
+        "properties": {
+          "auth": {
+            "type": "object",
+            "properties": {
+              "autologout": {
+                "description": "Autologout feature configuration",
+                "type": "object",
+                "properties": {
+                  "enabled": {
+                    "description": "Enable or disable the autologout feature",
+                    "visibility": "frontend",
+                    "type": "boolean"
+                  },
+                  "idleTimeoutMinutes": {
+                    "description": "Number of minutes after which the inactive user is logged out automatically.\nDefault is 60 minutes (1 hour)",
+                    "visibility": "frontend",
+                    "type": "number"
+                  },
+                  "promptBeforeIdleSeconds": {
+                    "description": "Number of seconds before the idle timeout where the user will be asked if it's still active.\nA dialog will be shown.\nDefault is 10 seconds.\nSet to 0 seconds to disable the prompt.",
+                    "visibility": "frontend",
+                    "type": "number"
+                  },
+                  "useWorkerTimers": {
+                    "description": "Enable/disable the usage of worker thread timers instead of main thread timers.\nDefault is true.\nIf you experience some browser incompatibility, you may try to set this to false.",
+                    "visibility": "frontend",
+                    "type": "boolean"
+                  },
+                  "logoutIfDisconnected": {
+                    "description": "Enable/disable the automatic logout also on users that are logged in but with no Backstage tabs open.\nDefault is true.",
+                    "visibility": "frontend",
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "packageName": "@backstage/core-components"
+    },
+    {
+      "path": "../../node_modules/@backstage/plugin-catalog/config.d.ts",
+      "value": {
+        "type": "object",
+        "properties": {
+          "catalog": {
+            "type": "object",
+            "properties": {
+              "experimentalPagination": {
+                "deepVisibility": "frontend",
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "limit": {
+                        "type": "number"
+                      }
+                    }
+                  },
+                  {
+                    "type": "boolean"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "packageName": "@backstage/plugin-catalog"
+    },
+    {
+      "path": "../../node_modules/@backstage/plugin-catalog-import/config.d.ts",
+      "value": {
+        "type": "object",
+        "properties": {
+          "catalog": {
+            "description": "Configuration options for the catalog plugin.",
+            "type": "object",
+            "properties": {
+              "import": {
+                "description": "List of import flow specific options and attributes",
+                "type": "object",
+                "properties": {
+                  "entityFilename": {
+                    "description": "Catalog entity descriptor filename, defaults to \"catalog-info.yaml\"",
+                    "visibility": "frontend",
+                    "type": "string"
+                  },
+                  "pullRequestBranchName": {
+                    "description": "A branch name used in pull request when registering existing component via UI\nValid git refname required, see: https://git-scm.com/docs/git-check-ref-format\nDefaults to \"backstage-integration\"",
+                    "visibility": "frontend",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "packageName": "@backstage/plugin-catalog-import"
+    },
+    {
+      "path": "../../node_modules/@backstage/plugin-search/config.d.ts",
+      "value": {
+        "type": "object",
+        "properties": {
+          "search": {
+            "description": "Configuration options for the search plugin",
+            "type": "object",
+            "properties": {
+              "defaultType": {
+                "description": "The default search type to be used when no specific type is selected.",
+                "visibility": "frontend",
+                "type": "string"
+              },
+              "query": {
+                "description": "An object representing the default search query configuration.\nBy configuring and modifying the values of this object,\nyou can customize the default values of the search queries\nand define how it behaves by default.",
+                "type": "object",
+                "properties": {
+                  "pageLimit": {
+                    "description": "A number indicating the maximum number of results to be returned\nper page during pagination.",
+                    "visibility": "frontend",
+                    "enum": [
+                      10,
+                      100,
+                      25,
+                      50
+                    ],
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "packageName": "@backstage/plugin-search"
+    },
+    {
+      "path": "../../node_modules/@backstage/plugin-techdocs/config.d.ts",
+      "value": {
+        "type": "object",
+        "properties": {
+          "techdocs": {
+            "description": "Configuration options for the techdocs plugin",
+            "type": "object",
+            "properties": {
+              "builder": {
+                "description": "Documentation building process depends on the builder attr",
+                "visibility": "frontend",
+                "enum": [
+                  "external",
+                  "local"
+                ],
+                "type": "string"
+              },
+              "legacyUseCaseSensitiveTripletPaths": {
+                "description": "Allows fallback to case-sensitive triplets in case of migration issues.",
+                "visibility": "frontend",
+                "type": "boolean"
+              },
+              "sanitizer": {
+                "type": "object",
+                "properties": {
+                  "allowedIframeHosts": {
+                    "description": "Allows iframe tag only for listed hosts\nExample:\n allowedIframeHosts: [\"example.com\"]\n this will allow all iframes with the host `example.com` in the src attribute",
+                    "visibility": "frontend",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "allowedCustomElementTagNameRegExp": {
+                    "description": "Allows listed custom element tag name regex\nExample:\n allowedCustomElementTagNameRegExp: '^backstage-'\n this will allow all custom elements with tag name matching `^backstage-` like <backstage-custom-element /> etc.",
+                    "visibility": "frontend",
+                    "type": "string"
+                  },
+                  "allowedCustomElementAttributeNameRegExp": {
+                    "description": "Allows listed custom element attribute name regex\nExample:\n allowedCustomElementAttributeNameRegExp: 'attribute1|attribute2'\n this will allow all custom element attributes matching `attribute1` or `attribute2` like <backstage-custom-element attribute1=\"yes\" attribute2/>",
+                    "visibility": "frontend",
+                    "type": "string"
+                  },
+                  "additionalAllowedURIProtocols": {
+                    "description": "Allows listed protocols in attributes with URI values\nExample:\n additionalAllowedURIProtocols: ['vscode']\n this will allow all attributes with URI values to have `vscode` protocol like `vscode://some/path` in addition to the default protocols\n matched by DOMPurify's IS_ALLOWED_URI RegExp:",
+                    "visibility": "frontend",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "packageName": "@backstage/plugin-techdocs"
+    },
+    {
+      "path": "../../node_modules/@roadiehq/backstage-plugin-prometheus/config.d.ts",
+      "value": {
+        "description": "Configuration for the Prometheus plugin",
+        "type": "object",
+        "properties": {
+          "prometheus": {
+            "visibility": "frontend",
+            "type": "object",
+            "properties": {
+              "proxyPath": {
+                "description": "The proxy path for Prometheus.\nShould be used if proxy is in use for security etc purposes.",
+                "visibility": "frontend",
+                "type": "string"
+              },
+              "uiUrl": {
+                "description": "The URL for the Prometheus UI.",
+                "visibility": "frontend",
+                "type": "string"
+              },
+              "instances": {
+                "description": "The proxy service instances for Prometheus.\nShould be used if you have multiple Prometheus instances you like to proxy to.",
+                "visibility": "frontend",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "description": "The proxy service instance name.\nShould match the annotation prometheus.io/service-name.",
+                      "visibility": "frontend",
+                      "type": "string"
+                    },
+                    "proxyPath": {
+                      "description": "The proxy path for the service instance.\nShould match a Backstage proxy.",
+                      "visibility": "frontend",
+                      "type": "string"
+                    },
+                    "uiUrl": {
+                      "description": "The URL for the Prometheus UI.",
+                      "visibility": "frontend",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "proxyPath"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "packageName": "@roadiehq/backstage-plugin-prometheus"
+    },
+    {
+      "path": "../../node_modules/@backstage-community/plugin-grafana/node_modules/@backstage/core-components/config.d.ts",
+      "value": {
+        "type": "object",
+        "properties": {
+          "auth": {
+            "type": "object",
+            "properties": {
+              "autologout": {
+                "description": "Autologout feature configuration",
+                "type": "object",
+                "properties": {
+                  "enabled": {
+                    "description": "Enable or disable the autologout feature",
+                    "visibility": "frontend",
+                    "type": "boolean"
+                  },
+                  "idleTimeoutMinutes": {
+                    "description": "Number of minutes after which the inactive user is logged out automatically.\nDefault is 60 minutes (1 hour)",
+                    "visibility": "frontend",
+                    "type": "number"
+                  },
+                  "promptBeforeIdleSeconds": {
+                    "description": "Number of seconds before the idle timeout where the user will be asked if it's still active.\nA dialog will be shown.\nDefault is 10 seconds.\nSet to 0 seconds to disable the prompt.",
+                    "visibility": "frontend",
+                    "type": "number"
+                  },
+                  "useWorkerTimers": {
+                    "description": "Enable/disable the usage of worker thread timers instead of main thread timers.\nDefault is true.\nIf you experience some browser incompatibility, you may try to set this to false.",
+                    "visibility": "frontend",
+                    "type": "boolean"
+                  },
+                  "logoutIfDisconnected": {
+                    "description": "Enable/disable the automatic logout also on users that are logged in but with no Backstage tabs open.\nDefault is true.",
+                    "visibility": "frontend",
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "packageName": "@backstage/core-components"
+    },
+    {
+      "path": "../../node_modules/@backstage/backend-plugin-api/config.d.ts",
+      "value": {
+        "type": "object",
+        "properties": {
+          "backend": {
+            "type": "object",
+            "properties": {
+              "workingDirectory": {
+                "description": "An absolute path to a directory that can be used as a working dir, for\nexample as scratch space for large operations.",
+                "type": "string"
+              }
+            }
+          }
+        },
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "packageName": "@backstage/backend-plugin-api"
+    },
+    {
+      "path": "../../node_modules/@backstage/plugin-auth-backend/config.d.ts",
+      "value": {
+        "type": "object",
+        "properties": {
+          "auth": {
+            "description": "Configuration options for the auth plugin",
+            "type": "object",
+            "properties": {
+              "environment": {
+                "description": "The 'environment' attribute",
+                "visibility": "frontend",
+                "type": "string"
+              },
+              "session": {
+                "type": "object",
+                "properties": {
+                  "secret": {
+                    "description": "The secret attribute of session object.",
+                    "visibility": "secret",
+                    "type": "string"
+                  }
+                }
+              },
+              "identityTokenAlgorithm": {
+                "description": "JWS \"alg\" (Algorithm) Header Parameter value. Defaults to ES256.\nMust match one of the algorithms defined for IdentityClient.\nWhen setting a different algorithm, check if the `key` field\nof the `signing_keys` table can fit the length of the generated keys.\nIf not, add a knex migration file in the migrations folder.\nMore info on supported algorithms: https://github.com/panva/jose",
+                "type": "string"
+              },
+              "omitIdentityTokenOwnershipClaim": {
+                "description": "Whether to omit the entity ownership references (`ent`) claim from the\nidentity token. If this is enabled the `ent` claim will only be available\nvia the user info endpoint and the `UserInfoService`.\n\nDefaults to `false`.",
+                "type": "boolean"
+              },
+              "keyStore": {
+                "description": "To control how to store JWK data in auth-backend",
+                "type": "object",
+                "properties": {
+                  "provider": {
+                    "enum": [
+                      "database",
+                      "firestore",
+                      "memory",
+                      "static"
+                    ],
+                    "type": "string"
+                  },
+                  "firestore": {
+                    "type": "object",
+                    "properties": {
+                      "host": {
+                        "description": "The host to connect to",
+                        "type": "string"
+                      },
+                      "port": {
+                        "description": "The port to connect to",
+                        "type": "number"
+                      },
+                      "ssl": {
+                        "description": "Whether to use SSL when connecting.",
+                        "type": "boolean"
+                      },
+                      "projectId": {
+                        "description": "The Google Cloud Project ID",
+                        "type": "string"
+                      },
+                      "keyFilename": {
+                        "description": "Local file containing the Service Account credentials.\nYou can omit this value to automatically read from\nGOOGLE_APPLICATION_CREDENTIALS env which is useful for local\ndevelopment.",
+                        "type": "string"
+                      },
+                      "path": {
+                        "description": "The path to use for the collection. Defaults to 'sessions'",
+                        "type": "string"
+                      },
+                      "timeout": {
+                        "description": "Timeout used for database operations. Defaults to 10000ms",
+                        "type": "number"
+                      }
+                    }
+                  },
+                  "static": {
+                    "type": "object",
+                    "properties": {
+                      "keys": {
+                        "description": "Must be declared at least once and the first one will be used for signing",
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "publicKeyFile": {
+                              "description": "Path to the public key file in the SPKI format",
+                              "type": "string"
+                            },
+                            "privateKeyFile": {
+                              "description": "Path to the matching private key file in the PKCS#8 format",
+                              "type": "string"
+                            },
+                            "keyId": {
+                              "description": "id to uniquely identify this key within the JWK set",
+                              "type": "string"
+                            },
+                            "algorithm": {
+                              "description": "JWS \"alg\" (Algorithm) Header Parameter value. Defaults to ES256.\nMust match the algorithm used to generate the keys in the provided files",
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "keyId",
+                            "privateKeyFile",
+                            "publicKeyFile"
+                          ]
+                        }
+                      }
+                    },
+                    "required": [
+                      "keys"
+                    ]
+                  }
+                }
+              },
+              "backstageTokenExpiration": {
+                "description": "The backstage token expiration."
+              },
+              "experimentalRefreshToken": {
+                "description": "Configuration for refresh tokens (offline access)",
+                "visibility": "backend",
+                "type": "object",
+                "properties": {
+                  "enabled": {
+                    "description": "Whether to enable refresh tokens",
+                    "default": false,
+                    "visibility": "backend",
+                    "type": "boolean"
+                  },
+                  "tokenLifetime": {
+                    "description": "Token lifetime before rotation required",
+                    "default": "'30 days'",
+                    "visibility": "backend"
+                  },
+                  "maxRotationLifetime": {
+                    "description": "Maximum session lifetime across all rotations",
+                    "default": "'1 year'",
+                    "visibility": "backend"
+                  },
+                  "maxTokensPerUser": {
+                    "description": "Maximum number of refresh tokens per user",
+                    "default": 20,
+                    "visibility": "backend",
+                    "type": "number"
+                  }
+                }
+              },
+              "experimentalExtraAllowedOrigins": {
+                "description": "Additional app origins to allow for authenticating",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "experimentalDynamicClientRegistration": {
+                "description": "Configuration for dynamic client registration",
+                "type": "object",
+                "properties": {
+                  "enabled": {
+                    "description": "Whether to enable dynamic client registration\nDefaults to false",
+                    "type": "boolean"
+                  },
+                  "allowedRedirectUriPatterns": {
+                    "description": "A list of allowed URI patterns to use for redirect URIs during\ndynamic client registration. Defaults to '[*]' which allows any redirect URI.",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "experimentalClientIdMetadataDocuments": {
+                "description": "Configuration for Client ID Metadata Documents (CIMD)",
+                "type": "object",
+                "properties": {
+                  "enabled": {
+                    "description": "Whether to enable Client ID Metadata Documents support\nDefaults to false",
+                    "type": "boolean"
+                  },
+                  "allowedClientIdPatterns": {
+                    "description": "A list of allowed URI patterns for client_id URLs.\nUses glob-style pattern matching where `*` matches any characters.\nDefaults to ['*'] which allows any client_id URL.",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "allowedRedirectUriPatterns": {
+                    "description": "A list of allowed URI patterns for redirect URIs.\nUses glob-style pattern matching where `*` matches any characters.\nDefaults to ['*'] which allows any redirect URI.",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "packageName": "@backstage/plugin-auth-backend"
+    },
+    {
+      "path": "../../node_modules/@backstage/plugin-auth-backend-module-guest-provider/config.d.ts",
+      "value": {
+        "type": "object",
+        "properties": {
+          "auth": {
+            "description": "Configuration options for the auth plugin",
+            "type": "object",
+            "properties": {
+              "providers": {
+                "type": "object",
+                "properties": {
+                  "guest": {
+                    "type": "object",
+                    "properties": {
+                      "userEntityRef": {
+                        "description": "The entity reference to use for the guest user.",
+                        "default": "user:development/guest",
+                        "type": "string"
+                      },
+                      "ownershipEntityRefs": {
+                        "description": "A list of entity references to user for ownership of the guest user if the user\n is not found in the catalog.",
+                        "default": "[userEntityRef]",
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "dangerouslyAllowOutsideDevelopment": {
+                        "description": "Allow users to sign in with the guest provider outside of their development environments.",
+                        "type": "boolean"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "required": [
+              "providers"
+            ]
+          }
+        },
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "packageName": "@backstage/plugin-auth-backend-module-guest-provider"
+    },
+    {
+      "path": "../../node_modules/@backstage/integration/config.d.ts",
+      "value": {
+        "type": "object",
+        "properties": {
+          "integrations": {
+            "description": "Configuration for integrations towards various external repository provider systems",
+            "visibility": "frontend",
+            "type": "object",
+            "properties": {
+              "azure": {
+                "description": "Integration configuration for Azure",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "host": {
+                      "description": "The hostname of the given Azure instance",
+                      "visibility": "frontend",
+                      "type": "string"
+                    },
+                    "credentials": {
+                      "description": "The credentials to use for requests. If multiple credentials are specified the first one that matches the organization is used.\nIf no organization matches the first credential without an organization is used.\n\nIf no credentials are specified at all, either a default credential (for Azure DevOps) or anonymous access (for Azure DevOps Server) is used.",
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "organizations": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "clientId": {
+                            "type": "string"
+                          },
+                          "clientSecret": {
+                            "visibility": "secret",
+                            "type": "string"
+                          },
+                          "tenantId": {
+                            "type": "string"
+                          },
+                          "personalAccessToken": {
+                            "visibility": "secret",
+                            "type": "string"
+                          },
+                          "managedIdentityClientId": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "commitSigningKey": {
+                      "description": "PGP signing key for signing commits.",
+                      "visibility": "secret",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "host"
+                  ]
+                }
+              },
+              "azureBlobStorage": {
+                "description": "Integration configuration for Azure Blob Storage",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "accountName": {
+                      "description": "The name of the Azure Storage Account, e.g., \"mystorageaccount\".",
+                      "type": "string"
+                    },
+                    "accountKey": {
+                      "description": "The primary or secondary key for the Azure Storage Account.\nOnly required if connectionString or SAS token are not specified.",
+                      "visibility": "secret",
+                      "type": "string"
+                    },
+                    "sasToken": {
+                      "description": "A Shared Access Signature (SAS) token for limited access to resources.",
+                      "visibility": "secret",
+                      "type": "string"
+                    },
+                    "connectionString": {
+                      "description": "A full connection string for the Azure Storage Account.\nThis includes the account name, key, and endpoint details.",
+                      "visibility": "secret",
+                      "type": "string"
+                    },
+                    "endpointSuffix": {
+                      "description": "Optional endpoint suffix for custom domains or sovereign clouds.\ne.g., \"core.windows.net\" for public Azure or \"core.usgovcloudapi.net\" for US Government cloud.",
+                      "type": "string"
+                    },
+                    "endpoint": {
+                      "description": "Optional endpoint URL for custom domain. Uses default if not provided.",
+                      "visibility": "frontend",
+                      "type": "string"
+                    },
+                    "aadCredential": {
+                      "description": "Optional credential to use for Azure Active Directory authentication.",
+                      "type": "object",
+                      "properties": {
+                        "clientId": {
+                          "description": "The client ID of the Azure AD application.",
+                          "type": "string"
+                        },
+                        "tenantId": {
+                          "description": "The tenant ID for Azure AD.",
+                          "type": "string"
+                        },
+                        "clientSecret": {
+                          "description": "The client secret for the Azure AD application.",
+                          "visibility": "secret",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "clientId",
+                        "clientSecret",
+                        "tenantId"
+                      ]
+                    }
+                  }
+                }
+              },
+              "bitbucketCloud": {
+                "description": "Integration configuration for Bitbucket Cloud",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "username": {
+                      "description": "The username to use for authenticated requests.",
+                      "visibility": "secret",
+                      "type": "string"
+                    },
+                    "token": {
+                      "description": "Token used to authenticate requests.",
+                      "visibility": "secret",
+                      "type": "string"
+                    },
+                    "appPassword": {
+                      "description": "Bitbucket Cloud app password used to authenticate requests.",
+                      "visibility": "secret",
+                      "deprecated": "Use `token` instead.",
+                      "type": "string"
+                    },
+                    "clientId": {
+                      "description": "OAuth client ID for Bitbucket Cloud.",
+                      "visibility": "secret",
+                      "type": "string"
+                    },
+                    "clientSecret": {
+                      "description": "OAuth client secret for Bitbucket Cloud.",
+                      "visibility": "secret",
+                      "type": "string"
+                    },
+                    "commitSigningKey": {
+                      "description": "PGP signing key for signing commits.",
+                      "visibility": "secret",
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "bitbucketServer": {
+                "description": "Integration configuration for Bitbucket Server",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "host": {
+                      "description": "The hostname of the given Bitbucket Server instance",
+                      "visibility": "frontend",
+                      "type": "string"
+                    },
+                    "token": {
+                      "description": "Token used to authenticate requests.",
+                      "visibility": "secret",
+                      "type": "string"
+                    },
+                    "username": {
+                      "description": "Username used to authenticate requests with Basic Auth.",
+                      "visibility": "secret",
+                      "type": "string"
+                    },
+                    "password": {
+                      "description": "Password (or token as password) used to authenticate requests with Basic Auth.",
+                      "visibility": "secret",
+                      "type": "string"
+                    },
+                    "apiBaseUrl": {
+                      "description": "The base url for the Bitbucket Server API, for example https://<host>/rest/api/1.0",
+                      "visibility": "frontend",
+                      "type": "string"
+                    },
+                    "commitSigningKey": {
+                      "description": "PGP signing key for signing commits.",
+                      "visibility": "secret",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "host"
+                  ]
+                }
+              },
+              "gerrit": {
+                "description": "Integration configuration for Gerrit",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "host": {
+                      "description": "The hostname of the given Gerrit instance",
+                      "visibility": "frontend",
+                      "type": "string"
+                    },
+                    "baseUrl": {
+                      "description": "The base url for the Gerrit instance.",
+                      "visibility": "frontend",
+                      "type": "string"
+                    },
+                    "gitilesBaseUrl": {
+                      "description": "The gitiles base url.",
+                      "visibility": "frontend",
+                      "type": "string"
+                    },
+                    "cloneUrl": {
+                      "description": "The base url for cloning repos.",
+                      "visibility": "frontend",
+                      "type": "string"
+                    },
+                    "disableEditUrl": {
+                      "description": "Disable the edit url feature.",
+                      "visibility": "frontend",
+                      "type": "boolean"
+                    },
+                    "username": {
+                      "description": "The username to use for authenticated requests.",
+                      "visibility": "secret",
+                      "type": "string"
+                    },
+                    "password": {
+                      "description": "Gerrit password used to authenticate requests. This can be either a password\nor a generated access token.",
+                      "visibility": "secret",
+                      "type": "string"
+                    },
+                    "commitSigningKey": {
+                      "description": "PGP signing key for signing commits.",
+                      "visibility": "secret",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "gitilesBaseUrl",
+                    "host"
+                  ]
+                }
+              },
+              "github": {
+                "description": "Integration configuration for GitHub",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "host": {
+                      "description": "The hostname of the given GitHub instance",
+                      "visibility": "frontend",
+                      "type": "string"
+                    },
+                    "token": {
+                      "description": "Token used to authenticate requests.",
+                      "visibility": "secret",
+                      "type": "string"
+                    },
+                    "apiBaseUrl": {
+                      "description": "The base url for the GitHub API, for example https://api.github.com",
+                      "visibility": "frontend",
+                      "type": "string"
+                    },
+                    "rawBaseUrl": {
+                      "description": "The base url for GitHub raw resources, for example https://raw.githubusercontent.com",
+                      "visibility": "frontend",
+                      "type": "string"
+                    },
+                    "apps": {
+                      "description": "GitHub Apps configuration",
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "appId": {
+                            "description": "The numeric GitHub App ID, string for environment variables",
+                            "type": [
+                              "string",
+                              "number"
+                            ]
+                          },
+                          "privateKey": {
+                            "description": "The private key to use for auth against the app",
+                            "visibility": "secret",
+                            "type": "string"
+                          },
+                          "webhookSecret": {
+                            "description": "The secret used for webhooks",
+                            "visibility": "secret",
+                            "type": "string"
+                          },
+                          "clientId": {
+                            "description": "The client ID to use",
+                            "type": "string"
+                          },
+                          "clientSecret": {
+                            "description": "The client secret to use",
+                            "visibility": "secret",
+                            "type": "string"
+                          },
+                          "allowedInstallationOwners": {
+                            "description": "List of installation owners allowed to be used by this GitHub app. The GitHub UI does not provide a way to list the installations.\nHowever you can list the installations with the GitHub API. You can find the list of installations here:\nhttps://api.github.com/app/installations\nThe relevant documentation for this is here.\nhttps://docs.github.com/en/rest/reference/apps#list-installations-for-the-authenticated-app--code-samples",
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "publicAccess": {
+                            "description": "If true, then an installation token will be issued for access when no other token is available.",
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [
+                          "appId",
+                          "clientId",
+                          "clientSecret",
+                          "privateKey"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "host"
+                  ]
+                }
+              },
+              "gitlab": {
+                "description": "Integration configuration for GitLab",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "host": {
+                      "description": "The host of the target that this matches on, e.g. \"gitlab.com\".",
+                      "visibility": "frontend",
+                      "type": "string"
+                    },
+                    "apiBaseUrl": {
+                      "description": "The base URL of the API of this provider, e.g.\n\"https://gitlab.com/api/v4\", with no trailing slash.\n\nMay be omitted specifically for public GitLab; then it will be deduced.",
+                      "visibility": "frontend",
+                      "type": "string"
+                    },
+                    "token": {
+                      "description": "The authorization token to use for requests to this provider.\n\nIf no token is specified, anonymous access is used.",
+                      "visibility": "secret",
+                      "type": "string"
+                    },
+                    "baseUrl": {
+                      "description": "The baseUrl of this provider, e.g. \"https://gitlab.com\", which is\npassed into the GitLab client.\n\nIf no baseUrl is provided, it will default to https://${host}.",
+                      "visibility": "frontend",
+                      "type": "string"
+                    },
+                    "commitSigningKey": {
+                      "description": "PGP signing key for signing commits.",
+                      "visibility": "secret",
+                      "type": "string"
+                    },
+                    "retry": {
+                      "description": "Retry configuration for requests.",
+                      "visibility": "frontend",
+                      "type": "object",
+                      "properties": {
+                        "maxRetries": {
+                          "description": "Maximum number of retries for failed requests.",
+                          "visibility": "frontend",
+                          "type": "number"
+                        },
+                        "retryStatusCodes": {
+                          "description": "HTTP status codes that should trigger a retry.",
+                          "visibility": "frontend",
+                          "type": "array",
+                          "items": {
+                            "type": "number"
+                          }
+                        },
+                        "maxApiRequestsPerMinute": {
+                          "description": "Maximum number of API requests allowed per minute. Set to -1 to disable rate limiting.",
+                          "visibility": "frontend",
+                          "type": "number"
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "host"
+                  ]
+                }
+              },
+              "googleGcs": {
+                "description": "Integration configuration for Google Cloud Storage",
+                "type": "object",
+                "properties": {
+                  "clientEmail": {
+                    "description": "Service account email used to authenticate requests.",
+                    "type": "string"
+                  },
+                  "privateKey": {
+                    "description": "Service account private key used to authenticate requests.",
+                    "visibility": "secret",
+                    "type": "string"
+                  }
+                }
+              },
+              "awsS3": {
+                "description": "Integration configuration for AWS S3 Service",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "endpoint": {
+                      "description": "AWS Endpoint.\nThe endpoint URI to send requests to. The default endpoint is built from the configured region.",
+                      "visibility": "frontend",
+                      "type": "string"
+                    },
+                    "s3ForcePathStyle": {
+                      "description": "Whether to use path style URLs when communicating with S3.\nDefaults to false.\nThis allows providers like LocalStack, Minio and Wasabi (and possibly others) to be used.",
+                      "visibility": "frontend",
+                      "type": "boolean"
+                    },
+                    "accessKeyId": {
+                      "description": "Account access key used to authenticate requests.",
+                      "type": "string"
+                    },
+                    "secretAccessKey": {
+                      "description": "Account secret key used to authenticate requests.",
+                      "visibility": "secret",
+                      "type": "string"
+                    },
+                    "roleArn": {
+                      "description": "ARN of the role to be assumed",
+                      "type": "string"
+                    },
+                    "externalId": {
+                      "description": "External ID to use when assuming role",
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "gitea": {
+                "description": "Integration configuration for Gitea",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "host": {
+                      "description": "The hostname of the given Gitea instance",
+                      "visibility": "frontend",
+                      "type": "string"
+                    },
+                    "baseUrl": {
+                      "description": "The base url for the Gitea instance.",
+                      "visibility": "frontend",
+                      "type": "string"
+                    },
+                    "username": {
+                      "description": "The username to use for authenticated requests.",
+                      "visibility": "secret",
+                      "type": "string"
+                    },
+                    "password": {
+                      "description": "Gitea password used to authenticate requests. This can be either a password\nor a generated access token.",
+                      "visibility": "secret",
+                      "type": "string"
+                    },
+                    "commitSigningKey": {
+                      "description": "PGP signing key for signing commits.",
+                      "visibility": "secret",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "host"
+                  ]
+                }
+              },
+              "harness": {
+                "description": "Integration configuration for Harness Code",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "host": {
+                      "description": "The hostname of the given Harness Code instance",
+                      "visibility": "frontend",
+                      "type": "string"
+                    },
+                    "apiKey": {
+                      "description": "The apikey to use for authenticated requests.",
+                      "visibility": "secret",
+                      "type": "string"
+                    },
+                    "token": {
+                      "description": "Harness Code token used to authenticate requests. This can be either a generated access token.",
+                      "visibility": "secret",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "host"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "packageName": "@backstage/integration"
+    },
+    {
+      "path": "../../node_modules/@backstage/plugin-permission-common/config.d.ts",
+      "value": {
+        "type": "object",
+        "properties": {
+          "permission": {
+            "description": "Configuration options for Backstage permissions and authorization",
+            "type": "object",
+            "properties": {
+              "enabled": {
+                "description": "Whether authorization is enabled in Backstage. Defaults to false, which means authorization\nrequests will be automatically allowed without invoking the authorization policy.",
+                "visibility": "frontend",
+                "type": "boolean"
+              },
+              "EXPERIMENTAL_enableBatchedRequests": {
+                "visibility": "frontend",
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "packageName": "@backstage/plugin-permission-common"
+    },
+    {
+      "path": "../../node_modules/@backstage/plugin-kubernetes-react/config.d.ts",
+      "value": {
+        "type": "object",
+        "properties": {
+          "kubernetes": {
+            "type": "object",
+            "properties": {
+              "podExecTerminal": {
+                "description": "Pod Exec Terminal config",
+                "type": "object",
+                "properties": {
+                  "enabled": {
+                    "description": "Enable `PodExecTerminal` UI feature",
+                    "visibility": "frontend",
+                    "type": "boolean"
+                  }
+                }
+              },
+              "frontend": {
+                "description": "Frontend config",
+                "type": "object",
+                "properties": {
+                  "podDelete": {
+                    "description": "Pod Delete config",
+                    "type": "object",
+                    "properties": {
+                      "enabled": {
+                        "description": "Enable `podDelete` UI feature",
+                        "visibility": "frontend",
+                        "type": "boolean"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "packageName": "@backstage/plugin-kubernetes-react"
+    },
+    {
+      "path": "../../node_modules/@backstage/frontend-app-api/config.d.ts",
+      "value": {
+        "type": "object",
+        "properties": {
+          "app": {
+            "type": "object",
+            "properties": {
+              "experimental": {
+                "type": "object",
+                "properties": {
+                  "packages": {
+                    "visibility": "frontend",
+                    "deepVisibility": "frontend",
+                    "deprecated": "This is no longer experimental; use `app.packages` instead.",
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "include": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "exclude": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "const": "all",
+                        "type": "string"
+                      }
+                    ]
+                  }
+                }
+              },
+              "packages": {
+                "description": "Controls what packages are loaded by the new frontend system.",
+                "visibility": "frontend",
+                "deepVisibility": "frontend",
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "include": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "exclude": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "const": "all",
+                    "type": "string"
+                  }
+                ]
+              },
+              "routes": {
+                "type": "object",
+                "properties": {
+                  "bindings": {
+                    "description": "Maps external route references to regular route references. Both the\nkey and the value is expected to be on the form `<pluginId>.<routeId>`.\nIf the value is `false`, the route will be disabled even if it has a\ndefault mapping.",
+                    "deepVisibility": "frontend",
+                    "type": "object",
+                    "additionalProperties": {
+                      "anyOf": [
+                        {
+                          "const": false,
+                          "type": "boolean"
+                        },
+                        {
+                          "type": "string"
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              "extensions": {
+                "deepVisibility": "frontend",
+                "type": "array",
+                "items": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "additionalProperties": {
+                        "anyOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "attachTo": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "input": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "id",
+                                  "input"
+                                ]
+                              },
+                              "disabled": {
+                                "type": "boolean"
+                              },
+                              "config": {}
+                            }
+                          },
+                          {
+                            "type": "boolean"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "string"
+                    }
+                  ]
+                }
+              },
+              "pluginOverrides": {
+                "description": "This section enables you to override certain properties of specific or\ngroups of plugins.",
+                "deepVisibility": "frontend",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "match": {
+                      "description": "The criteria for matching plugins to override.",
+                      "type": "object",
+                      "properties": {
+                        "pluginId": {
+                          "description": "A pattern that is matched against the plugin ID.",
+                          "type": "string"
+                        },
+                        "packageName": {
+                          "description": "A pattern that is matched against the package name.",
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "info": {
+                      "description": "Overrides individual top-level fields of the plugin info.",
+                      "type": "object",
+                      "properties": {
+                        "description": {
+                          "description": "Override the description of the plugin.",
+                          "type": "string"
+                        },
+                        "ownerEntityRefs": {
+                          "description": "Override the owner entity references of the plugin.",
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "links": {
+                          "description": "Override the links of the plugin.",
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "title": {
+                                "type": "string"
+                              },
+                              "url": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "title",
+                              "url"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "info"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "packageName": "@backstage/frontend-app-api"
+    },
+    {
+      "path": "../../node_modules/@jikwan/backstage-plugin-dora-scorecard/node_modules/@backstage/core-components/config.d.ts",
+      "value": {
+        "type": "object",
+        "properties": {
+          "auth": {
+            "type": "object",
+            "properties": {
+              "autologout": {
+                "description": "Autologout feature configuration",
+                "type": "object",
+                "properties": {
+                  "enabled": {
+                    "description": "Enable or disable the autologout feature",
+                    "visibility": "frontend",
+                    "type": "boolean"
+                  },
+                  "idleTimeoutMinutes": {
+                    "description": "Number of minutes after which the inactive user is logged out automatically.\nDefault is 60 minutes (1 hour)",
+                    "visibility": "frontend",
+                    "type": "number"
+                  },
+                  "promptBeforeIdleSeconds": {
+                    "description": "Number of seconds before the idle timeout where the user will be asked if it's still active.\nA dialog will be shown.\nDefault is 10 seconds.\nSet to 0 seconds to disable the prompt.",
+                    "visibility": "frontend",
+                    "type": "number"
+                  },
+                  "useWorkerTimers": {
+                    "description": "Enable/disable the usage of worker thread timers instead of main thread timers.\nDefault is true.\nIf you experience some browser incompatibility, you may try to set this to false.",
+                    "visibility": "frontend",
+                    "type": "boolean"
+                  },
+                  "logoutIfDisconnected": {
+                    "description": "Enable/disable the automatic logout also on users that are logged in but with no Backstage tabs open.\nDefault is true.",
+                    "visibility": "frontend",
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "packageName": "@backstage/core-components"
+    },
+    {
+      "path": "../../node_modules/@backstage/backend-defaults/config.d.ts",
+      "value": {
+        "type": "object",
+        "properties": {
+          "app": {
+            "type": "object",
+            "properties": {
+              "baseUrl": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "baseUrl"
+            ]
+          },
+          "backend": {
+            "type": "object",
+            "properties": {
+              "baseUrl": {
+                "description": "The full base URL of the backend, as seen from the browser's point of\nview as it makes calls to the backend.",
+                "type": "string"
+              },
+              "lifecycle": {
+                "type": "object",
+                "properties": {
+                  "startupRequestPauseTimeout": {
+                    "description": "The maximum time that paused requests will wait for the service to start, before returning an error.\nDefaults to 5 seconds\nSupported formats:\n- A string in the format of '1d', '2 seconds' etc. as supported by the `ms`\n  library.\n- A standard ISO formatted duration string, e.g. 'P2DT6H' or 'PT1M'.\n- An object with individual units (in plural) as keys, e.g. `{ days: 2, hours: 6 }`."
+                  },
+                  "serverShutdownDelay": {
+                    "description": "The minimum time that the HTTP server will delay the shutdown of the backend. During this delay health checks will be set to failing, allowing traffic to drain.\nDefaults to 0 seconds.\nSupported formats:\n- A string in the format of '1d', '2 seconds' etc. as supported by the `ms`\n  library.\n- A standard ISO formatted duration string, e.g. 'P2DT6H' or 'PT1M'.\n- An object with individual units (in plural) as keys, e.g. `{ days: 2, hours: 6 }`."
+                  }
+                }
+              },
+              "trustProxy": {
+                "description": "Corresponds to the Express `trust proxy` setting.",
+                "anyOf": [
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  {
+                    "type": [
+                      "string",
+                      "number",
+                      "boolean"
+                    ]
+                  }
+                ]
+              },
+              "listen": {
+                "description": "Address that the backend should listen to.",
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "host": {
+                        "description": "Address of the interface that the backend should bind to.",
+                        "type": "string"
+                      },
+                      "port": {
+                        "description": "Port that the backend should listen to.",
+                        "type": [
+                          "string",
+                          "number"
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              "https": {
+                "description": "HTTPS configuration for the backend. If omitted the backend will serve HTTP.\n\nSetting this to `true` will cause self-signed certificates to be generated, which\ncan be useful for local development or other non-production scenarios.",
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "certificate": {
+                        "description": "Certificate configuration",
+                        "type": "object",
+                        "properties": {
+                          "cert": {
+                            "description": "PEM encoded certificate. Use $file to load in a file",
+                            "type": "string"
+                          },
+                          "key": {
+                            "description": "PEM encoded certificate key. Use $file to load in a file.",
+                            "visibility": "secret",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "cert",
+                          "key"
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "const": true,
+                    "type": "boolean"
+                  }
+                ]
+              },
+              "server": {
+                "description": "Server-level HTTP options configuration for the backend.\nThese options are passed directly to the underlying Node.js HTTP server.\n\nTimeout values support multiple formats:\n- A number in milliseconds\n- A string in the format of '1d', '2 seconds' etc. as supported by the `ms` library\n- A standard ISO formatted duration string, e.g. 'P2DT6H' or 'PT1M'\n- An object with individual units (in plural) as keys, e.g. `{ days: 2, hours: 6 }`",
+                "type": "object",
+                "properties": {
+                  "headersTimeout": {
+                    "description": "Sets the timeout value for receiving the complete HTTP headers from the client."
+                  },
+                  "requestTimeout": {
+                    "description": "Sets the timeout value for receiving the entire request (headers and body) from the client."
+                  },
+                  "keepAliveTimeout": {
+                    "description": "Sets the timeout value for inactivity on a socket during keep-alive."
+                  },
+                  "timeout": {
+                    "description": "Sets the timeout value for sockets."
+                  },
+                  "maxHeadersCount": {
+                    "description": "Limits maximum incoming headers count.",
+                    "type": "number"
+                  },
+                  "maxRequestsPerSocket": {
+                    "description": "Sets the maximum number of requests socket can handle before closing keep alive connection.",
+                    "type": "number"
+                  }
+                }
+              },
+              "auditor": {
+                "description": "Options used by the default auditor service.",
+                "type": "object",
+                "properties": {
+                  "severityLogLevelMappings": {
+                    "description": "Defines how audit event severity levels are mapped to log levels.\nThis allows you to control the verbosity of audit logs based on the\nseverity of the event. For example, you might want to log 'low' severity\nevents as 'debug' messages, while logging 'critical' events as 'error'\nmessages. Each severity level ('low', 'medium', 'high', 'critical')\ncan be mapped to one of the standard log levels ('debug', 'info', 'warn', 'error').\n\nBy default, audit events are mapped to log levels as follows:\n- `low`: `debug`\n- `medium`: `info`\n- `high`: `info`\n- `critical`: `info`",
+                    "type": "object",
+                    "properties": {
+                      "low": {
+                        "enum": [
+                          "debug",
+                          "error",
+                          "info",
+                          "warn"
+                        ],
+                        "type": "string"
+                      },
+                      "medium": {
+                        "enum": [
+                          "debug",
+                          "error",
+                          "info",
+                          "warn"
+                        ],
+                        "type": "string"
+                      },
+                      "high": {
+                        "enum": [
+                          "debug",
+                          "error",
+                          "info",
+                          "warn"
+                        ],
+                        "type": "string"
+                      },
+                      "critical": {
+                        "enum": [
+                          "debug",
+                          "error",
+                          "info",
+                          "warn"
+                        ],
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              },
+              "actions": {
+                "description": "Options used by the default actions service.",
+                "type": "object",
+                "properties": {
+                  "pluginSources": {
+                    "description": "List of plugin sources to load actions from.",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "filter": {
+                    "description": "Filter configuration for actions. Allows controlling which actions\nare exposed to consumers based on patterns and attributes.",
+                    "type": "object",
+                    "properties": {
+                      "include": {
+                        "description": "Rules for actions to include. An action must match at least one rule to be included.\nEach rule can specify an id pattern and/or attribute constraints.\nIf no include rules are specified, all actions are included by default.",
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "description": "Glob pattern for action IDs to match.\nAction IDs have the format `{pluginId}:{actionName}`.",
+                              "type": "string"
+                            },
+                            "attributes": {
+                              "description": "Attribute constraints. All specified attributes must match.\nActions are compared against their resolved attributes (with defaults applied).",
+                              "type": "object",
+                              "properties": {
+                                "destructive": {
+                                  "description": "If specified, only match actions where destructive matches this value.\nActions default to destructive: true if not explicitly set.",
+                                  "type": "boolean"
+                                },
+                                "readOnly": {
+                                  "description": "If specified, only match actions where readOnly matches this value.\nActions default to readOnly: false if not explicitly set.",
+                                  "type": "boolean"
+                                },
+                                "idempotent": {
+                                  "description": "If specified, only match actions where idempotent matches this value.\nActions default to idempotent: false if not explicitly set.",
+                                  "type": "boolean"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "exclude": {
+                        "description": "Rules for actions to exclude. Exclusions take precedence over inclusions.\nEach rule can specify an id pattern and/or attribute constraints.",
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "description": "Glob pattern for action IDs to match.\nAction IDs have the format `{pluginId}:{actionName}`.",
+                              "type": "string"
+                            },
+                            "attributes": {
+                              "description": "Attribute constraints. All specified attributes must match.\nActions are compared against their resolved attributes (with defaults applied).",
+                              "type": "object",
+                              "properties": {
+                                "destructive": {
+                                  "description": "If specified, only match actions where destructive matches this value.\nActions default to destructive: true if not explicitly set.",
+                                  "type": "boolean"
+                                },
+                                "readOnly": {
+                                  "description": "If specified, only match actions where readOnly matches this value.\nActions default to readOnly: false if not explicitly set.",
+                                  "type": "boolean"
+                                },
+                                "idempotent": {
+                                  "description": "If specified, only match actions where idempotent matches this value.\nActions default to idempotent: false if not explicitly set.",
+                                  "type": "boolean"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "auth": {
+                "description": "Options used by the default auth, httpAuth and userInfo services.",
+                "type": "object",
+                "properties": {
+                  "keys": {
+                    "description": "Keys shared by all backends for signing and validating backend tokens.",
+                    "deprecated": "this will be removed when the backwards compatibility is no longer needed with backend-common",
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "secret": {
+                          "description": "Secret for generating tokens. Should be a base64 string, recommended\nlength is 24 bytes.",
+                          "visibility": "secret",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "secret"
+                      ]
+                    }
+                  },
+                  "dangerouslyDisableDefaultAuthPolicy": {
+                    "description": "This disables the otherwise default auth policy, which requires all\nrequests to be authenticated with either user or service credentials.\n\nDisabling this check means that the backend will no longer block\nunauthenticated requests, but instead allow them to pass through to\nplugins.\n\nIf permissions are enabled, unauthenticated requests will be treated\nexactly as such, leaving it to the permission policy to determine what\npermissions should be allowed for an unauthenticated identity. Note\nthat this will also apply to service-to-service calls between plugins\nunless you configure credentials for service calls.",
+                    "type": "boolean"
+                  },
+                  "pluginKeyStore": {
+                    "description": "Controls how to store keys for plugin-to-plugin auth",
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string",
+                            "const": "database"
+                          }
+                        },
+                        "required": [
+                          "type"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string",
+                            "const": "static"
+                          },
+                          "static": {
+                            "type": "object",
+                            "properties": {
+                              "keys": {
+                                "description": "Must be declared at least once and the first one will be used for signing.",
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "publicKeyFile": {
+                                      "description": "Path to the public key file in the SPKI format. Should be an absolute path.",
+                                      "type": "string"
+                                    },
+                                    "privateKeyFile": {
+                                      "description": "Path to the matching private key file in the PKCS#8 format. Should be an absolute path.\n\nThe first array entry must specify a private key file, the rest must not.",
+                                      "type": "string"
+                                    },
+                                    "keyId": {
+                                      "description": "ID to uniquely identify this key within the JWK set.",
+                                      "type": "string"
+                                    },
+                                    "algorithm": {
+                                      "description": "JWS \"alg\" (Algorithm) Header Parameter value. Defaults to ES256.\nMust match the algorithm used to generate the keys in the provided files",
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "keyId",
+                                    "publicKeyFile"
+                                  ]
+                                }
+                              }
+                            },
+                            "required": [
+                              "keys"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "static",
+                          "type"
+                        ]
+                      }
+                    ]
+                  },
+                  "externalAccess": {
+                    "description": "Configures methods of external access, ie ways for callers outside of\nthe Backstage ecosystem to get authorized for access to APIs that do\nnot permit unauthorized access.",
+                    "type": "array",
+                    "items": {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "description": "This is the legacy service-to-service access method, where a set\nof static keys were shared among plugins and used for symmetric\nsigning and verification. These correspond to the old\n`backend.auth.keys` set and retain their behavior for backwards\ncompatibility. Please migrate to other access methods when\npossible.\n\nCallers generate JWT tokens with the following payload:\n\n```json\n{\n  \"sub\": \"backstage-plugin\",\n  \"exp\": <epoch seconds one hour in the future>\n}\n```\n\nAnd sign them with HS256, using the base64 decoded secret. The\ntokens are then passed along with requests in the Authorization\nheader:\n\n```\nAuthorization: Bearer eyJhbGciOiJIUzI...\n```",
+                              "type": "string",
+                              "const": "legacy"
+                            },
+                            "options": {
+                              "type": "object",
+                              "properties": {
+                                "secret": {
+                                  "description": "Any set of base64 encoded random bytes to be used as both the\nsigning and verification key. Should be sufficiently long so as\nnot to be easy to guess by brute force.\n\nCan be generated eg using\n\n```sh\nnode -p 'require(\"crypto\").randomBytes(24).toString(\"base64\")'\n```",
+                                  "visibility": "secret",
+                                  "type": "string"
+                                },
+                                "subject": {
+                                  "description": "Sets the subject of the principal, when matching this token.\nUseful for debugging and tracking purposes.",
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "secret",
+                                "subject"
+                              ]
+                            },
+                            "accessRestrictions": {
+                              "description": "Restricts what types of access that are permitted for this access\nmethod. If no access restrictions are given, it'll have unlimited\naccess. This access restriction applies for the framework level;\nindividual plugins may have their own access control mechanisms\non top of this.",
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "plugin": {
+                                    "description": "Permit access to make requests to this plugin.\n\nCan be further refined by setting additional fields below.",
+                                    "type": "string"
+                                  },
+                                  "permission": {
+                                    "description": "If given, this method is limited to only performing actions\nwith these named permissions in this plugin.\n\nNote that this only applies where permissions checks are\nenabled in the first place. Endpoints that are not protected by\nthe permissions system at all, are not affected by this\nsetting.",
+                                    "anyOf": [
+                                      {
+                                        "type": "array",
+                                        "items": {
+                                          "type": "string"
+                                        }
+                                      },
+                                      {
+                                        "type": "string"
+                                      }
+                                    ]
+                                  },
+                                  "permissionAttribute": {
+                                    "description": "If given, this method is limited to only performing actions\nwhose permissions have these attributes.\n\nNote that this only applies where permissions checks are\nenabled in the first place. Endpoints that are not protected by\nthe permissions system at all, are not affected by this\nsetting.",
+                                    "type": "object",
+                                    "properties": {
+                                      "action": {
+                                        "description": "One of more of 'create', 'read', 'update', or 'delete'.",
+                                        "anyOf": [
+                                          {
+                                            "type": "array",
+                                            "items": {
+                                              "type": "string"
+                                            }
+                                          },
+                                          {
+                                            "type": "string"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  }
+                                },
+                                "required": [
+                                  "plugin"
+                                ]
+                              }
+                            }
+                          },
+                          "required": [
+                            "options",
+                            "type"
+                          ]
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "description": "This access method consists of random static tokens that can be\nhanded out to callers.\n\nThe tokens are then passed along verbatim with requests in the\nAuthorization header:\n\n```\nAuthorization: Bearer eZv5o+fW3KnR3kVabMW4ZcDNLPl8nmMW\n```",
+                              "type": "string",
+                              "const": "static"
+                            },
+                            "options": {
+                              "type": "object",
+                              "properties": {
+                                "token": {
+                                  "description": "A raw token that can be any string, but for security reasons\nshould be sufficiently long so as not to be easy to guess by\nbrute force.\n\nCan be generated eg using\n\n```sh\nnode -p 'require(\"crypto\").randomBytes(24).toString(\"base64\")'\n```\n\nSince the tokens can be any string, you are free to add\nadditional identifying data to them if you like. For example,\nadding a `freben-local-dev-` prefix for debugging purposes to a\ntoken that you know will be handed out for use as a personal\naccess token during development.",
+                                  "visibility": "secret",
+                                  "type": "string"
+                                },
+                                "subject": {
+                                  "description": "Sets the subject of the principal, when matching this token.\nUseful for debugging and tracking purposes.",
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "subject",
+                                "token"
+                              ]
+                            },
+                            "accessRestrictions": {
+                              "description": "Restricts what types of access that are permitted for this access\nmethod. If no access restrictions are given, it'll have unlimited\naccess. This access restriction applies for the framework level;\nindividual plugins may have their own access control mechanisms\non top of this.",
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "plugin": {
+                                    "description": "Permit access to make requests to this plugin.\n\nCan be further refined by setting additional fields below.",
+                                    "type": "string"
+                                  },
+                                  "permission": {
+                                    "description": "If given, this method is limited to only performing actions\nwith these named permissions in this plugin.\n\nNote that this only applies where permissions checks are\nenabled in the first place. Endpoints that are not protected by\nthe permissions system at all, are not affected by this\nsetting.",
+                                    "anyOf": [
+                                      {
+                                        "type": "array",
+                                        "items": {
+                                          "type": "string"
+                                        }
+                                      },
+                                      {
+                                        "type": "string"
+                                      }
+                                    ]
+                                  },
+                                  "permissionAttribute": {
+                                    "description": "If given, this method is limited to only performing actions\nwhose permissions have these attributes.\n\nNote that this only applies where permissions checks are\nenabled in the first place. Endpoints that are not protected by\nthe permissions system at all, are not affected by this\nsetting.",
+                                    "type": "object",
+                                    "properties": {
+                                      "action": {
+                                        "description": "One of more of 'create', 'read', 'update', or 'delete'.",
+                                        "anyOf": [
+                                          {
+                                            "type": "array",
+                                            "items": {
+                                              "type": "string"
+                                            }
+                                          },
+                                          {
+                                            "type": "string"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  }
+                                },
+                                "required": [
+                                  "plugin"
+                                ]
+                              }
+                            }
+                          },
+                          "required": [
+                            "options",
+                            "type"
+                          ]
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "description": "This access method consists of a JWKS endpoint that can be used to\nverify JWT tokens.\n\nCallers generate JWT tokens via 3rd party tooling\nand pass them in the Authorization header:\n\n```\nAuthorization: Bearer eZv5o+fW3KnR3kVabMW4ZcDNLPl8nmMW\n```",
+                              "type": "string",
+                              "const": "jwks"
+                            },
+                            "options": {
+                              "type": "object",
+                              "properties": {
+                                "url": {
+                                  "description": "The full URL of the JWKS endpoint.",
+                                  "type": "string"
+                                },
+                                "algorithm": {
+                                  "description": "Sets the algorithm(s) that should be used to verify the JWT tokens.\nThe passed JWTs must have been signed using one of the listed algorithms.",
+                                  "anyOf": [
+                                    {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    {
+                                      "type": "string"
+                                    }
+                                  ]
+                                },
+                                "issuer": {
+                                  "description": "Sets the issuer(s) that should be used to verify the JWT tokens.\nPassed JWTs must have an `iss` claim which matches one of the specified issuers.",
+                                  "anyOf": [
+                                    {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    {
+                                      "type": "string"
+                                    }
+                                  ]
+                                },
+                                "audience": {
+                                  "description": "Sets the audience(s) that should be used to verify the JWT tokens.\nThe passed JWTs must have an \"aud\" claim that matches one of the audiences specified,\nor have no audience specified.",
+                                  "anyOf": [
+                                    {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    {
+                                      "type": "string"
+                                    }
+                                  ]
+                                },
+                                "subjectPrefix": {
+                                  "description": "Sets an optional subject prefix. Passes the subject to called plugins.\nUseful for debugging and tracking purposes.",
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "url"
+                              ]
+                            },
+                            "accessRestrictions": {
+                              "description": "Restricts what types of access that are permitted for this access\nmethod. If no access restrictions are given, it'll have unlimited\naccess. This access restriction applies for the framework level;\nindividual plugins may have their own access control mechanisms\non top of this.",
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "plugin": {
+                                    "description": "Permit access to make requests to this plugin.\n\nCan be further refined by setting additional fields below.",
+                                    "type": "string"
+                                  },
+                                  "permission": {
+                                    "description": "If given, this method is limited to only performing actions\nwith these named permissions in this plugin.\n\nNote that this only applies where permissions checks are\nenabled in the first place. Endpoints that are not protected by\nthe permissions system at all, are not affected by this\nsetting.",
+                                    "anyOf": [
+                                      {
+                                        "type": "array",
+                                        "items": {
+                                          "type": "string"
+                                        }
+                                      },
+                                      {
+                                        "type": "string"
+                                      }
+                                    ]
+                                  },
+                                  "permissionAttribute": {
+                                    "description": "If given, this method is limited to only performing actions\nwhose permissions have these attributes.\n\nNote that this only applies where permissions checks are\nenabled in the first place. Endpoints that are not protected by\nthe permissions system at all, are not affected by this\nsetting.",
+                                    "type": "object",
+                                    "properties": {
+                                      "action": {
+                                        "description": "One of more of 'create', 'read', 'update', or 'delete'.",
+                                        "anyOf": [
+                                          {
+                                            "type": "array",
+                                            "items": {
+                                              "type": "string"
+                                            }
+                                          },
+                                          {
+                                            "type": "string"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  }
+                                },
+                                "required": [
+                                  "plugin"
+                                ]
+                              }
+                            }
+                          },
+                          "required": [
+                            "options",
+                            "type"
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              "database": {
+                "description": "Database connection configuration, select base database type using the `client` field",
+                "type": "object",
+                "properties": {
+                  "client": {
+                    "description": "Default database client to use",
+                    "enum": [
+                      "better-sqlite3",
+                      "pg",
+                      "sqlite3"
+                    ],
+                    "type": "string"
+                  },
+                  "connection": {
+                    "description": "Base database connection string, or object with individual connection properties",
+                    "visibility": "secret",
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "description": "The specific config for Azure database for PostgreSQL connections with Entra authentication",
+                            "type": "string",
+                            "const": "azure"
+                          },
+                          "tokenCredential": {
+                            "description": "Optional Azure token credential configuration",
+                            "type": "object",
+                            "properties": {
+                              "tokenRenewableOffsetTime": {
+                                "description": "How early before an access token expires to refresh it with a new one.\nDefaults to 5 minutes\nSupported formats:\n- A string in the format of '1d', '2 seconds' etc. as supported by the `ms` library.\n- A standard ISO formatted duration string, e.g. 'P2DT6H' or 'PT1M'.\n- An object with individual units (in plural) as keys, e.g. `{ days: 2, hours: 6 }`."
+                              },
+                              "clientId": {
+                                "type": "string"
+                              },
+                              "clientSecret": {
+                                "visibility": "secret",
+                                "type": "string"
+                              },
+                              "tenantId": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        },
+                        "required": [
+                          "type"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "description": "The specific config for cloudsql connections",
+                            "type": "string",
+                            "const": "cloudsql"
+                          },
+                          "instance": {
+                            "description": "The instance connection name for the cloudsql instance, e.g. `project:region:instance`",
+                            "type": "string"
+                          },
+                          "ipAddressType": {
+                            "description": "The ip address type to use for the connection. Defaults to 'PUBLIC'",
+                            "enum": [
+                              "PRIVATE",
+                              "PSC",
+                              "PUBLIC"
+                            ],
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "instance",
+                          "type"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": {},
+                        "properties": {
+                          "type": {
+                            "description": "The rest config for default, regular connections",
+                            "const": "default",
+                            "type": "string"
+                          },
+                          "password": {
+                            "description": "Password that belongs to the client User",
+                            "visibility": "secret",
+                            "type": "string"
+                          }
+                        }
+                      },
+                      {
+                        "type": "string"
+                      }
+                    ]
+                  },
+                  "prefix": {
+                    "description": "Database name prefix override",
+                    "type": "string"
+                  },
+                  "ensureExists": {
+                    "description": "Whether to ensure the given database exists by creating it if it does not.\nDefaults to true if unspecified.",
+                    "type": "boolean"
+                  },
+                  "ensureSchemaExists": {
+                    "description": "Whether to ensure the given database schema exists by creating it if it does not.\nDefaults to false if unspecified.\n\nNOTE: Currently only supported by the `pg` client when pluginDivisionMode: schema",
+                    "type": "boolean"
+                  },
+                  "pluginDivisionMode": {
+                    "description": "How plugins databases are managed/divided in the provided database instance.\n\n`database` -> Plugins are each given their own database to manage their schemas/tables.\n\n`schema` -> Plugins will be given their own schema (in the specified/default database)\n            to manage their tables.\n\nNOTE: Currently only supported by the `pg` client.",
+                    "default": "database",
+                    "enum": [
+                      "database",
+                      "schema"
+                    ],
+                    "type": "string"
+                  },
+                  "role": {
+                    "description": "Configures the ownership of newly created schemas in pg databases.",
+                    "type": "string"
+                  },
+                  "knexConfig": {
+                    "description": "Arbitrary config object to pass to knex when initializing\n(https://knexjs.org/#Installation-client). Most notable is the debug\nand asyncStackTraces booleans",
+                    "type": "object",
+                    "properties": {},
+                    "additionalProperties": true
+                  },
+                  "skipMigrations": {
+                    "description": "Skip running database migrations.",
+                    "type": "boolean"
+                  },
+                  "plugin": {
+                    "description": "Plugin specific database configuration and client override",
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "object",
+                      "properties": {
+                        "client": {
+                          "description": "Database client override",
+                          "enum": [
+                            "better-sqlite3",
+                            "pg",
+                            "sqlite3"
+                          ],
+                          "type": "string"
+                        },
+                        "connection": {
+                          "description": "Database connection string or Knex object override",
+                          "visibility": "secret",
+                          "anyOf": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "description": "The specific config for cloudsql connections",
+                                  "type": "string",
+                                  "const": "cloudsql"
+                                },
+                                "instance": {
+                                  "description": "The instance connection name for the cloudsql instance, e.g. `project:region:instance`",
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "instance",
+                                "type"
+                              ]
+                            },
+                            {
+                              "type": "object",
+                              "additionalProperties": {},
+                              "properties": {
+                                "password": {
+                                  "description": "Password that belongs to the client User",
+                                  "visibility": "secret",
+                                  "type": "string"
+                                }
+                              }
+                            },
+                            {
+                              "type": "string"
+                            }
+                          ]
+                        },
+                        "ensureExists": {
+                          "description": "Whether to ensure the given database exists by creating it if it does not.\nDefaults to base config if unspecified.",
+                          "type": "boolean"
+                        },
+                        "ensureSchemaExists": {
+                          "description": "Whether to ensure the given database schema exists by creating it if it does not.\nDefaults to false if unspecified.\n\nNOTE: Currently only supported by the `pg` client when pluginDivisionMode: schema",
+                          "type": "boolean"
+                        },
+                        "knexConfig": {
+                          "description": "Arbitrary config object to pass to knex when initializing\n(https://knexjs.org/#Installation-client). Most notable is the\ndebug and asyncStackTraces booleans.\n\nThis is merged recursively into the base knexConfig",
+                          "type": "object",
+                          "properties": {},
+                          "additionalProperties": true
+                        },
+                        "role": {
+                          "description": "Configures the ownership of newly created schemas in pg databases.",
+                          "type": "string"
+                        },
+                        "skipMigrations": {
+                          "description": "Skip running database migrations.",
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                },
+                "required": [
+                  "client",
+                  "connection"
+                ]
+              },
+              "cache": {
+                "description": "Cache connection configuration, select cache type using the `store` field",
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "store": {
+                        "type": "string",
+                        "const": "memory"
+                      },
+                      "defaultTtl": {
+                        "description": "An optional default TTL (in milliseconds, if given as a number)."
+                      }
+                    },
+                    "required": [
+                      "store"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "store": {
+                        "type": "string",
+                        "const": "redis"
+                      },
+                      "connection": {
+                        "description": "A redis connection string in the form `redis://user:pass@host:port`.",
+                        "visibility": "secret",
+                        "type": "string"
+                      },
+                      "defaultTtl": {
+                        "description": "An optional default TTL (in milliseconds, if given as a number)."
+                      },
+                      "redis": {
+                        "type": "object",
+                        "properties": {
+                          "client": {
+                            "description": "An optional Redis client configuration.  These options are passed to the `@keyv/redis` client.",
+                            "type": "object",
+                            "properties": {
+                              "namespace": {
+                                "description": "Namespace for the current instance.",
+                                "type": "string"
+                              },
+                              "keyPrefixSeparator": {
+                                "description": "Separator to use between namespace and key.",
+                                "type": "string"
+                              },
+                              "clearBatchSize": {
+                                "description": "Number of keys to delete in a single batch.",
+                                "type": "number"
+                              },
+                              "useUnlink": {
+                                "description": "Enable Unlink instead of using Del for clearing keys. This is more performant but may not be supported by all Redis versions.",
+                                "type": "boolean"
+                              },
+                              "noNamespaceAffectsAll": {
+                                "description": "Whether to allow clearing all keys when no namespace is set.\nIf set to true and no namespace is set, iterate() will return all keys.\nDefaults to `false`.",
+                                "type": "boolean"
+                              }
+                            }
+                          },
+                          "cluster": {
+                            "description": "An optional Redis cluster configuration.",
+                            "type": "object",
+                            "properties": {
+                              "rootNodes": {
+                                "description": "Cluster configuration options to be passed to the `@keyv/redis` client (and node-redis under the hood)\nhttps://github.com/redis/node-redis/blob/master/docs/clustering.md",
+                                "visibility": "secret",
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {},
+                                  "additionalProperties": true
+                                }
+                              },
+                              "defaults": {
+                                "description": "Cluster node default configuration options to be passed to the `@keyv/redis` client (and node-redis under the hood)\nhttps://github.com/redis/node-redis/blob/master/docs/clustering.md",
+                                "visibility": "secret",
+                                "type": "object",
+                                "properties": {},
+                                "additionalProperties": true
+                              },
+                              "minimizeConnections": {
+                                "description": "When `true`, `.connect()` will only discover the cluster topology, without actually connecting to all the nodes.\nUseful for short-term or PubSub-only connections.",
+                                "type": "boolean"
+                              },
+                              "useReplicas": {
+                                "description": "When `true`, distribute load by executing readonly commands (such as `GET`, `GEOSEARCH`, etc.) across all cluster nodes. When `false`, only use master nodes.",
+                                "type": "boolean"
+                              },
+                              "maxCommandRedirections": {
+                                "description": "The maximum number of times a command will be redirected due to `MOVED` or `ASK` errors.",
+                                "type": "number"
+                              }
+                            },
+                            "required": [
+                              "rootNodes"
+                            ]
+                          }
+                        }
+                      }
+                    },
+                    "required": [
+                      "connection",
+                      "store"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "store": {
+                        "type": "string",
+                        "const": "valkey"
+                      },
+                      "connection": {
+                        "description": "A valkey connection string in the form `redis://user:pass@host:port`.",
+                        "visibility": "secret",
+                        "type": "string"
+                      },
+                      "defaultTtl": {
+                        "description": "An optional default TTL (in milliseconds, if given as a number)."
+                      },
+                      "valkey": {
+                        "type": "object",
+                        "properties": {
+                          "client": {
+                            "description": "An optional Valkey client configuration.  These options are passed to the `@keyv/valkey` client.",
+                            "type": "object",
+                            "properties": {
+                              "keyPrefix": {
+                                "description": "Namespace and separator used for prefixing keys.",
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "cluster": {
+                            "description": "An optional Valkey cluster (redis cluster under the hood) configuration.",
+                            "type": "object",
+                            "properties": {
+                              "rootNodes": {
+                                "description": "Cluster configuration options to be passed to the `@keyv/valkey` client (and node-redis under the hood)\nhttps://github.com/redis/node-redis/blob/master/docs/clustering.md",
+                                "visibility": "secret",
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {},
+                                  "additionalProperties": true
+                                }
+                              },
+                              "defaults": {
+                                "description": "Cluster node default configuration options to be passed to the `@keyv/redis` client (and node-redis under the hood)\nhttps://github.com/redis/node-redis/blob/master/docs/clustering.md",
+                                "visibility": "secret",
+                                "type": "object",
+                                "properties": {},
+                                "additionalProperties": true
+                              },
+                              "minimizeConnections": {
+                                "description": "When `true`, `.connect()` will only discover the cluster topology, without actually connecting to all the nodes.\nUseful for short-term or PubSub-only connections.",
+                                "type": "boolean"
+                              },
+                              "useReplicas": {
+                                "description": "When `true`, distribute load by executing readonly commands (such as `GET`, `GEOSEARCH`, etc.) across all cluster nodes. When `false`, only use master nodes.",
+                                "type": "boolean"
+                              },
+                              "maxCommandRedirections": {
+                                "description": "The maximum number of times a command will be redirected due to `MOVED` or `ASK` errors.",
+                                "type": "number"
+                              }
+                            },
+                            "required": [
+                              "rootNodes"
+                            ]
+                          }
+                        }
+                      }
+                    },
+                    "required": [
+                      "connection",
+                      "store"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "store": {
+                        "type": "string",
+                        "const": "memcache"
+                      },
+                      "connection": {
+                        "description": "A memcache connection string in the form `user:pass@host:port`.",
+                        "visibility": "secret",
+                        "type": "string"
+                      },
+                      "defaultTtl": {
+                        "description": "An optional default TTL (in milliseconds)."
+                      }
+                    },
+                    "required": [
+                      "connection",
+                      "store"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "store": {
+                        "description": "Infinispan cache store configuration.",
+                        "type": "string",
+                        "const": "infinispan"
+                      },
+                      "defaultTtl": {
+                        "description": "An optional default TTL (in milliseconds)."
+                      },
+                      "infinispan": {
+                        "description": "Configuration for the Infinispan cache store.",
+                        "type": "object",
+                        "properties": {
+                          "version": {
+                            "description": "Version of client/server protocol.",
+                            "default": "'2.9' is the latest version.",
+                            "enum": [
+                              "2.2",
+                              "2.5",
+                              "2.9"
+                            ],
+                            "type": "string"
+                          },
+                          "cacheName": {
+                            "description": "Infinispan Cache Name if not provided default is `cache` recommended to set this.",
+                            "type": "string"
+                          },
+                          "maxRetries": {
+                            "description": "Optional number of retries for operation.\nDefaults to 3.",
+                            "type": "number"
+                          },
+                          "topologyUpdates": {
+                            "description": "Optional flag to controls whether the client deals with topology updates or not.",
+                            "default": true,
+                            "type": "boolean"
+                          },
+                          "mediaType": {
+                            "description": "Media type of the cache contents.",
+                            "default": "'text/plain'",
+                            "enum": [
+                              "application/json",
+                              "text/plain"
+                            ],
+                            "type": "string"
+                          },
+                          "dataFormat": {
+                            "description": "Optional data format configuration.\nIf not provided, defaults to text/plain for both key and value.",
+                            "type": "object",
+                            "properties": {
+                              "keyType": {
+                                "description": "Type of the key in the cache.",
+                                "default": "'text/plain'",
+                                "enum": [
+                                  "application/json",
+                                  "text/plain"
+                                ],
+                                "type": "string"
+                              },
+                              "valueType": {
+                                "description": "Type of the value in the cache.",
+                                "default": "'text/plain'",
+                                "enum": [
+                                  "application/json",
+                                  "text/plain"
+                                ],
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "servers": {
+                            "description": "Infinispan server host and port configuration.\nIf this is an array, the client will connect to all servers in the list based on TOPOLOGY_AWARE routing.\nIf this is a single object, it will be used as the default server.",
+                            "anyOf": [
+                              {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "host": {
+                                      "description": "Infinispan server host.",
+                                      "type": "string"
+                                    },
+                                    "port": {
+                                      "description": "Infinispan server port (Hot Rod protocol). Defaults to `11222`.",
+                                      "type": "number"
+                                    }
+                                  },
+                                  "required": [
+                                    "host"
+                                  ]
+                                }
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "host": {
+                                    "description": "Infinispan server host. Defaults to `127.0.0.1`.",
+                                    "type": "string"
+                                  },
+                                  "port": {
+                                    "description": "Infinispan server port (Hot Rod protocol). Defaults to `11222`.",
+                                    "type": "number"
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          "authentication": {
+                            "type": "object",
+                            "properties": {
+                              "enabled": {
+                                "description": "Enable authentication. Defaults to `false`.",
+                                "type": "boolean"
+                              },
+                              "saslMechanism": {
+                                "description": "Select the SASL mechanism to use. Can be one of PLAIN, DIGEST-MD5, SCRAM-SHA-1, SCRAM-SHA-256, SCRAM-SHA-384, SCRAM-SHA-512, EXTERNAL, OAUTHBEARER",
+                                "type": "string"
+                              },
+                              "userName": {
+                                "description": "userName for authentication.",
+                                "type": "string"
+                              },
+                              "password": {
+                                "description": "Password for authentication.",
+                                "visibility": "secret",
+                                "type": "string"
+                              },
+                              "token": {
+                                "description": "The OAuth token. Required by the OAUTHBEARER mechanism.",
+                                "visibility": "secret",
+                                "type": "string"
+                              },
+                              "authzid": {
+                                "description": "The SASL authorization ID.",
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "ssl": {
+                            "description": "TLS/SSL configuration.",
+                            "type": "object",
+                            "properties": {
+                              "enabled": {
+                                "description": "Enable ssl connection. Defaults to `false`.",
+                                "default": false,
+                                "type": "boolean"
+                              },
+                              "secureProtocol": {
+                                "description": "Optional field with secure protocol in use.",
+                                "default": "TLSv1_2_method",
+                                "type": "string"
+                              },
+                              "trustCerts": {
+                                "description": "Optional paths of trusted SSL certificates.",
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                }
+                              },
+                              "clientAuth": {
+                                "type": "object",
+                                "properties": {
+                                  "key": {
+                                    "description": "Optional path to client authentication key",
+                                    "type": "string"
+                                  },
+                                  "passphrase": {
+                                    "description": "Optional password for client key",
+                                    "type": "string"
+                                  },
+                                  "cert": {
+                                    "description": "Optional client certificate",
+                                    "type": "string"
+                                  }
+                                }
+                              },
+                              "sniHostName": {
+                                "description": "Optional SNI host name.",
+                                "type": "string"
+                              },
+                              "cryptoStore": {
+                                "description": "Optional crypto store configuration.",
+                                "type": "object",
+                                "properties": {
+                                  "path": {
+                                    "description": "Optional crypto store path.",
+                                    "type": "string"
+                                  },
+                                  "passphrase": {
+                                    "description": "Optional password for crypto store.",
+                                    "type": "string"
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "clusters": {
+                            "description": "Optional additional clusters for cross-site failovers.\nArray.<Cluster>",
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "name": {
+                                  "description": "Optional Cluster name",
+                                  "type": "string"
+                                },
+                                "servers": {
+                                  "description": "Cluster servers details.\nArray.<ServerAddress>",
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "host": {
+                                        "description": "Infinispan cluster server host.",
+                                        "type": "string"
+                                      },
+                                      "port": {
+                                        "description": "Infinispan server port (Hot Rod protocol). Defaults to `11222`.",
+                                        "type": "number"
+                                      }
+                                    },
+                                    "required": [
+                                      "host"
+                                    ]
+                                  }
+                                }
+                              },
+                              "required": [
+                                "servers"
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "required": [
+                      "store"
+                    ]
+                  }
+                ]
+              },
+              "cors": {
+                "type": "object",
+                "properties": {
+                  "origin": {
+                    "anyOf": [
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      {
+                        "type": "string"
+                      }
+                    ]
+                  },
+                  "methods": {
+                    "anyOf": [
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      {
+                        "type": "string"
+                      }
+                    ]
+                  },
+                  "allowedHeaders": {
+                    "anyOf": [
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      {
+                        "type": "string"
+                      }
+                    ]
+                  },
+                  "exposedHeaders": {
+                    "anyOf": [
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      {
+                        "type": "string"
+                      }
+                    ]
+                  },
+                  "credentials": {
+                    "type": "boolean"
+                  },
+                  "maxAge": {
+                    "type": "number"
+                  },
+                  "preflightContinue": {
+                    "type": "boolean"
+                  },
+                  "optionsSuccessStatus": {
+                    "type": "number"
+                  }
+                }
+              },
+              "csp": {
+                "description": "Content Security Policy options.\n\nThe keys are the plain policy ID, e.g. \"upgrade-insecure-requests\". The\nvalues are on the format that the helmet library expects them, as an\narray of strings. There is also the special value false, which means to\nremove the default value that Backstage puts in place for that policy.",
+                "type": "object",
+                "additionalProperties": {
+                  "anyOf": [
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    {
+                      "const": false,
+                      "type": "boolean"
+                    }
+                  ]
+                }
+              },
+              "referrer": {
+                "description": "Referrer Policy options",
+                "type": "object",
+                "properties": {
+                  "policy": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "policy"
+                ]
+              },
+              "health": {
+                "description": "Options for the health check service and endpoint.",
+                "type": "object",
+                "properties": {
+                  "headers": {
+                    "description": "Additional headers to always include in the health check response.\n\nIt can be a good idea to set a header that uniquely identifies your service\nin a multi-service environment. This ensures that the health check that is\nconfigured for your service is actually hitting your service and not another.\n\nFor example, if using Envoy you can use the `service_name_matcher` configuration\nand set the `x-envoy-upstream-healthchecked-cluster` header to a matching value.",
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "metrics": {
+                "description": "Options for the metrics service.",
+                "type": "object",
+                "properties": {
+                  "plugin": {
+                    "description": "Plugin-specific metrics configuration. Each plugin can override meter metadata.",
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "object",
+                      "properties": {
+                        "meter": {
+                          "description": "Meter configuration for this plugin.",
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "description": "Custom meter name. If not set, defaults to backstage-plugin-{pluginId}.",
+                              "type": "string"
+                            },
+                            "version": {
+                              "description": "Version for the meter.",
+                              "type": "string"
+                            },
+                            "schemaUrl": {
+                              "description": "Schema URL for the meter.",
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "logger": {
+                "description": "Options to configure the default RootLoggerService.",
+                "type": "object",
+                "properties": {
+                  "level": {
+                    "description": "Configures the global log level for messages.\n\nThis can also be configured using the LOG_LEVEL environment variable, which\ntakes precedence over this configuration.\n\nDefaults to 'info'.",
+                    "enum": [
+                      "debug",
+                      "error",
+                      "info",
+                      "warn"
+                    ],
+                    "type": "string"
+                  },
+                  "meta": {
+                    "description": "Additional metadata to include with every log entry."
+                  },
+                  "overrides": {
+                    "description": "List of logger overrides.\n\nCan be used to configure a different level for logs matching certain criterias.\nFor example, it can be used to ignore 'info' logs of given plugins.",
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "matchers": {
+                          "description": "Conditions that must be met to override the log level.\n\nA matcher can be:\n\n- A string (exact match or regex pattern delimited by slashes, e.g. `/pattern/`)\n- A non-string value (compared by strict equality)\n- An array of matchers (returns true if any matcher matches)"
+                        },
+                        "level": {
+                          "description": "Log level to use for matched entries.",
+                          "enum": [
+                            "debug",
+                            "error",
+                            "info",
+                            "warn"
+                          ],
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "level",
+                        "matchers"
+                      ]
+                    }
+                  }
+                }
+              },
+              "rateLimit": {
+                "description": "Rate limiting options. Defining this as `true` will enable rate limiting with default values.",
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "store": {
+                        "anyOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "redis"
+                              },
+                              "connection": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "connection",
+                              "type"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "memory"
+                              }
+                            },
+                            "required": [
+                              "type"
+                            ]
+                          }
+                        ]
+                      },
+                      "global": {
+                        "description": "Enable/disable global rate limiting. If this is disabled, plugin specific rate limiting must be\nused.",
+                        "type": "boolean"
+                      },
+                      "window": {
+                        "description": "Time frame in milliseconds or as human duration for which requests are checked/remembered.\nDefaults to one minute."
+                      },
+                      "incomingRequestLimit": {
+                        "description": "The maximum number of connections to allow during the `window` before rate limiting the client.\nDefaults to 5.",
+                        "type": "number"
+                      },
+                      "passOnStoreError": {
+                        "description": "Whether to pass requests in case of store failure.\nDefaults to false.",
+                        "type": "boolean"
+                      },
+                      "ipAllowList": {
+                        "description": "List of allowed IP addresses that are not rate limited.\nDefaults to [127.0.0.1, 0:0:0:0:0:0:0:1, ::1].",
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "skipSuccessfulRequests": {
+                        "description": "Skip rate limiting for requests that have been successful.\nDefaults to false.",
+                        "type": "boolean"
+                      },
+                      "skipFailedRequests": {
+                        "description": "Skip rate limiting for requests that have failed.\nDefaults to false.",
+                        "type": "boolean"
+                      },
+                      "plugin": {
+                        "description": "Plugin specific rate limiting configuration",
+                        "type": "object",
+                        "additionalProperties": {
+                          "type": "object",
+                          "properties": {
+                            "window": {
+                              "description": "Time frame in milliseconds or as human duration for which requests are checked/remembered.\nDefaults to one minute."
+                            },
+                            "incomingRequestLimit": {
+                              "description": "The maximum number of connections to allow during the `window` before rate limiting the client.\nDefaults to 5.",
+                              "type": "number"
+                            },
+                            "passOnStoreError": {
+                              "description": "Whether to pass requests in case of store failure.\nDefaults to false.",
+                              "type": "boolean"
+                            },
+                            "ipAllowList": {
+                              "description": "List of allowed IP addresses that are not rate limited.\nDefaults to [127.0.0.1, 0:0:0:0:0:0:0:1, ::1].",
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "skipSuccessfulRequests": {
+                              "description": "Skip rate limiting for requests that have been successful.\nDefaults to false.",
+                              "type": "boolean"
+                            },
+                            "skipFailedRequests": {
+                              "description": "Skip rate limiting for requests that have failed.\nDefaults to false.",
+                              "type": "boolean"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "const": true,
+                    "type": "boolean"
+                  }
+                ]
+              },
+              "reading": {
+                "description": "Configuration related to URL reading, used for example for reading catalog info\nfiles, scaffolder templates, and techdocs content.",
+                "type": "object",
+                "properties": {
+                  "allow": {
+                    "description": "A list of targets to allow outgoing requests to. Users will be able to make\nrequests on behalf of the backend to the targets that are allowed by this list.",
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "host": {
+                          "description": "A host to allow outgoing requests to, being either a full host or\na subdomain wildcard pattern with a leading `*`. For example `example.com`\nand `*.example.com` are valid values, `prod.*.example.com` is not.\nThe host may also contain a port, for example `example.com:8080`.",
+                          "type": "string"
+                        },
+                        "paths": {
+                          "description": "An optional list of paths. In case they are present only targets matching\nany of them will are allowed. You can use trailing slashes to make sure only\nsubdirectories are allowed, for example `/mydir/` will allow targets with\npaths like `/mydir/a` but will block paths like `/mydir2`.",
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "required": [
+                        "host"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "required": [
+              "baseUrl",
+              "database"
+            ]
+          },
+          "discovery": {
+            "description": "Options used by the default discovery service.",
+            "type": "object",
+            "properties": {
+              "endpoints": {
+                "description": "A list of target base URLs and their associated plugins.",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "target": {
+                      "description": "The target base URL to use for the given set of plugins. Note that this\nneeds to be a full URL including the protocol and path parts that fully\naddress the root of a plugin's API endpoints.",
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "internal": {
+                              "type": "string"
+                            },
+                            "external": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        {
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "plugins": {
+                      "description": "Array of plugins which use that target base URL.\n\nThe special value `*` can be used to match all plugins.",
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "plugins",
+                    "target"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "endpoints"
+            ]
+          }
+        },
+        "required": [
+          "app"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "packageName": "@backstage/backend-defaults"
+    },
+    {
+      "path": "../../node_modules/@backstage-community/plugin-grafana/node_modules/@backstage/plugin-catalog-common/node_modules/@backstage/plugin-permission-common/config.d.ts",
+      "value": {
+        "type": "object",
+        "properties": {
+          "permission": {
+            "description": "Configuration options for Backstage permissions and authorization",
+            "type": "object",
+            "properties": {
+              "enabled": {
+                "description": "Whether authorization is enabled in Backstage. Defaults to false, which means authorization\nrequests will be automatically allowed without invoking the authorization policy.",
+                "visibility": "frontend",
+                "type": "boolean"
+              },
+              "EXPERIMENTAL_enableBatchedRequests": {
+                "visibility": "frontend",
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "packageName": "@backstage/plugin-permission-common"
+    },
+    {
+      "path": "../../node_modules/@backstage/backend-app-api/config.d.ts",
+      "value": {
+        "type": "object",
+        "properties": {
+          "backend": {
+            "type": "object",
+            "properties": {
+              "packages": {
+                "description": "Used by the feature discovery service",
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "include": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "exclude": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "const": "all",
+                    "type": "string"
+                  }
+                ]
+              },
+              "startup": {
+                "type": "object",
+                "properties": {
+                  "default": {
+                    "type": "object",
+                    "properties": {
+                      "onPluginBootFailure": {
+                        "description": "The default value for `onPluginBootFailure` if not specified for a particular plugin.\nThis defaults to 'abort', which means `onPluginBootFailure: continue` must be specified\nfor backend startup to continue on plugin boot failure. This can also be set to\n'continue', which flips the logic for individual plugins so that they must be set to\n`onPluginBootFailure: abort` to be required.",
+                        "enum": [
+                          "abort",
+                          "continue"
+                        ],
+                        "type": "string"
+                      },
+                      "onPluginModuleBootFailure": {
+                        "description": "The default value for `onPluginModuleBootFailure` if not specified for a particular plugin module.\nThis defaults to 'abort', which means `onPluginModuleBootFailure: continue` must be specified\nfor backend startup to continue on plugin module boot failure. This can also be set to\n'continue', which flips the logic for individual plugin modules so that they must be set to\n`onPluginModuleBootFailure: abort` to be required.",
+                        "enum": [
+                          "abort",
+                          "continue"
+                        ],
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "plugins": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "object",
+                      "properties": {
+                        "onPluginBootFailure": {
+                          "description": "Used to control backend startup behavior when this plugin fails to boot up. Setting\nthis to `continue` allows the backend to continue starting up, even if this plugin\nfails. This can enable leaving a crashing plugin installed, but still permit backend\nstartup, which may help troubleshoot data-dependent issues. Plugin failures for plugins\nset to `abort` are fatal (this is the default unless overridden by the `default`\nsetting).",
+                          "enum": [
+                            "abort",
+                            "continue"
+                          ],
+                          "type": "string"
+                        },
+                        "modules": {
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "object",
+                            "properties": {
+                              "onPluginModuleBootFailure": {
+                                "description": "Used to control backend startup behavior when this plugin module fails to boot up. Setting\nthis to `continue` allows the backend to continue starting up, even if this plugin\nmodule fails. This can enable leaving a crashing plugin installed, but still permit backend\nstartup, which may help troubleshoot data-dependent issues. Plugin module failures for plugin modules\nset to `abort` are fatal (this is the default unless overridden by the `default`\nsetting).",
+                                "enum": [
+                                  "abort",
+                                  "continue"
+                                ],
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "packageName": "@backstage/backend-app-api"
+    },
+    {
+      "path": "../../node_modules/@backstage/integration-aws-node/config.d.ts",
+      "value": {
+        "type": "object",
+        "properties": {
+          "aws": {
+            "description": "Configuration for access to AWS accounts",
+            "type": "object",
+            "properties": {
+              "accountDefaults": {
+                "description": "Defaults for retrieving AWS account credentials",
+                "type": "object",
+                "properties": {
+                  "roleName": {
+                    "description": "The IAM role to assume to retrieve temporary AWS credentials",
+                    "type": "string"
+                  },
+                  "partition": {
+                    "description": "The AWS partition of the IAM role, e.g. \"aws\", \"aws-cn\"",
+                    "type": "string"
+                  },
+                  "region": {
+                    "description": "The STS regional endpoint to use when retrieving temporary AWS credentials, e.g. \"ap-northeast-1\"",
+                    "type": "string"
+                  },
+                  "externalId": {
+                    "description": "The unique identifier needed to assume the role to retrieve temporary AWS credentials",
+                    "visibility": "secret",
+                    "type": "string"
+                  }
+                }
+              },
+              "mainAccount": {
+                "description": "Main account to use for retrieving AWS account credentials",
+                "type": "object",
+                "properties": {
+                  "accessKeyId": {
+                    "description": "The access key ID for a set of static AWS credentials",
+                    "visibility": "secret",
+                    "type": "string"
+                  },
+                  "secretAccessKey": {
+                    "description": "The secret access key for a set of static AWS credentials",
+                    "visibility": "secret",
+                    "type": "string"
+                  },
+                  "profile": {
+                    "description": "The configuration profile from a credentials file at ~/.aws/credentials and\na configuration file at ~/.aws/config.",
+                    "type": "string"
+                  },
+                  "region": {
+                    "description": "The STS regional endpoint to use for the main account, e.g. \"ap-northeast-1\"",
+                    "type": "string"
+                  }
+                }
+              },
+              "accounts": {
+                "description": "Configuration for retrieving AWS accounts credentials",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "accountId": {
+                      "description": "The account ID of the target account that this matches on, e.g. \"123456789012\"",
+                      "type": "string"
+                    },
+                    "accessKeyId": {
+                      "description": "The access key ID for a set of static AWS credentials",
+                      "visibility": "secret",
+                      "type": "string"
+                    },
+                    "secretAccessKey": {
+                      "description": "The secret access key for a set of static AWS credentials",
+                      "visibility": "secret",
+                      "type": "string"
+                    },
+                    "profile": {
+                      "description": "The configuration profile from a credentials file at ~/.aws/credentials and\na configuration file at ~/.aws/config.",
+                      "type": "string"
+                    },
+                    "roleName": {
+                      "description": "The IAM role to assume to retrieve temporary AWS credentials",
+                      "type": "string"
+                    },
+                    "partition": {
+                      "description": "The AWS partition of the IAM role, e.g. \"aws\", \"aws-cn\"",
+                      "type": "string"
+                    },
+                    "region": {
+                      "description": "The STS regional endpoint to use when retrieving temporary AWS credentials, e.g. \"ap-northeast-1\"",
+                      "type": "string"
+                    },
+                    "externalId": {
+                      "description": "The unique identifier needed to assume the role to retrieve temporary AWS credentials",
+                      "visibility": "secret",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "accountId"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "packageName": "@backstage/integration-aws-node"
+    },
+    {
+      "path": "../../node_modules/@backstage/plugin-events-node/config.d.ts",
+      "value": {
+        "type": "object",
+        "properties": {
+          "events": {
+            "type": "object",
+            "properties": {
+              "useEventBus": {
+                "description": "Whether to use the event bus API in the events plugin backend to\ndistribute events across multiple instances when publishing and\nsubscribing to events.\n\nThe default is 'auto', which means means that the event bus API will be\nused if it's available, but will be disabled if the events backend\nreturns a 404.\n\nIf set to 'never', the events service will only ever publish events\nlocally to the same instance, while if set to 'always', the event bus API\nwill never be disabled, even if the events backend returns a 404.",
+                "enum": [
+                  "always",
+                  "auto",
+                  "never"
+                ],
+                "type": "string"
+              }
+            }
+          }
+        },
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "packageName": "@backstage/plugin-events-node"
+    }
+  ],
+  "backstageConfigSchemaVersion": 1
+}

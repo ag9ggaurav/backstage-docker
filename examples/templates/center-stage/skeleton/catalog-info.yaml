@@ -1,0 +1,31 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ${{ values.serviceName }}
+  description: Remote SSH Access Self-Service Portal
+  annotations:
+    github.com/project-slug: ${{ values.repoOrg }}/${{ values.repoName }}
+    backstage.io/kubernetes-label-selector: app=${{ values.serviceName }}
+{% if values.enableMetrics %}
+    prometheus.io/rule: >-
+      cato_ssh_requests_total|server,
+      cato_ssh_errors_total|server,
+      cato_job_duration_seconds|action
+{% if values.alertsEnabled %}
+    prometheus.io/alert: 'all'
+{% endif %}
+{% endif %}
+    grafana/overview-dashboard: ${{ values.grafanaDashboardUrl }}
+    grafana/dashboard-selector: "tags @> '${{ values.serviceName }}'"
+    grafana/alert-label-selector: service=${{ values.serviceName }}
+  links:
+    - url: http://grafana.monitoring.svc:3000
+      title: Grafana Dashboard
+      icon: dashboard
+    - url: http://prometheus.monitoring.svc:9090
+      title: Prometheus
+      icon: search
+spec:
+  type: service
+  owner: ${{ values.owner }}
+  lifecycle: production

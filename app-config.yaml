@@ -19,6 +19,7 @@ backend:
     # host: 127.0.0.1
   csp:
     connect-src: ["'self'", 'http:', 'https:']
+    frame-src: ["'self'", 'http:', 'https:']
     # Content-Security-Policy directives follow the Helmet format: https://helmetjs.github.io/#reference
     # Default Helmet Content-Security-Policy values can be removed by setting the key to false
   cors:
@@ -44,12 +45,38 @@ integrations:
     #   token: ${GHE_TOKEN}
 
 proxy:
-  ### Example for how to add a proxy endpoint for the frontend.
-  ### A typical reason to do this is to handle HTTPS and CORS for internal services.
-  # endpoints:
-  #   '/test':
-  #     target: 'https://example.com'
-  #     changeOrigin: true
+  '/prometheus/api':
+    target: http://prometheus.monitoring.svc:9090/api/v1/
+    changeOrigin: true
+    secure: false
+  '/grafana/api':
+    target: http://grafana.monitoring.svc:3000/
+    changeOrigin: true
+    secure: false
+    headers:
+      Authorization: Bearer ${GRAFANA_TOKEN}
+
+prometheus:
+  proxyPath: /prometheus/api
+  uiUrl: http://prometheus.monitoring.svc:9090
+
+grafana:
+  domain: http://grafana.monitoring.svc:3000
+  unifiedAlerting: false
+
+# The backend plugin is only enabled when ENABLE_DORA_SCORECARD=true is set.
+doraScorecard:
+  github:
+    token: ${GITHUB_TOKEN}
+    org: hymdall
+  database:
+    client: pg
+    connection:
+      host: ${POSTGRES_HOST:-localhost}
+      port: 5432
+      user: ${POSTGRES_USER:-backstage}
+      password: ${POSTGRES_PASSWORD:-backstage}
+  syncSchedule: '0 */6 * * *'
 
 # Reference documentation http://backstage.io/docs/features/techdocs/configuration
 # Note: After experimenting with basic setup, use CI/CD to generate docs
@@ -76,7 +103,7 @@ catalog:
     entityFilename: catalog-info.yaml
     pullRequestBranchName: backstage-integration
   rules:
-    - allow: [Component, System, API, Resource, Location]
+    - allow: [API, Component, User, Group, Location, Resource, System, Template]
   locations:
     # Local example data, file locations are relative to the backend process, typically `packages/backend`
     - type: file
@@ -93,6 +120,26 @@ catalog:
       target: ../../examples/org.yaml
       rules:
         - allow: [User, Group]
+
+    - type: file
+      target: ../../examples/templates/go-service/template.yaml
+      rules:
+        - allow: [Template]
+
+    - type: file
+      target: ../../examples/templates/center-stage/template.yaml
+      rules:
+        - allow: [Template]
+
+    - type: file
+      target: ../../examples/templates/cronjob-script/template.yaml
+      rules:
+        - allow: [Template]
+
+    - type: file
+      target: ../../examples/templates/react-service/template.yaml
+      rules:
+        - allow: [Template]
 
     ## Uncomment these lines to add more example data
     # - type: url

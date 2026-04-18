@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backstage-k8s-config
+  namespace: backstage
+data:
+  app-config.k8s.yaml: |
+    app:
+      baseUrl: http://localhost:30007
+
+    backend:
+      baseUrl: http://localhost:30007
+      listen: ':7007'
+
+    proxy:
+      '/prometheus/api':
+        target: http://kube-prometheus-stack-prometheus.prometheus.svc.cluster.local:9090/api/v1/
+        changeOrigin: true
+        secure: false
+      '/grafana/api':
+        target: http://kube-prometheus-stack-grafana.prometheus.svc.cluster.local:80/
+        changeOrigin: true
+        secure: false
+        headers:
+          Authorization: Bearer ${GRAFANA_TOKEN}
+
+    prometheus:
+      proxyPath: /prometheus/api
+      uiUrl: http://localhost:30090
+
+    grafana:
+      domain: http://localhost:31862
+      unifiedAlerting: false

@@ -1,0 +1,93 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ${{ values.serviceName }}
+  namespace: ${{ values.namespace }}
+  labels:
+    app: ${{ values.serviceName }}
+spec:
+  replicas: ${{ values.replicas }}
+  selector:
+    matchLabels:
+      app: ${{ values.serviceName }}
+  template:
+    metadata:
+      labels:
+        app: ${{ values.serviceName }}
+{% if values.enableMetrics %}
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+        prometheus.io/path: "/metrics"
+{% endif %}
+    spec:
+{% if values.nodeSelectorKey and values.nodeSelectorValue %}
+      nodeSelector:
+        ${{ values.nodeSelectorKey }}: ${{ values.nodeSelectorValue }}
+      tolerations:
+        - key: ${{ values.nodeSelectorKey }}
+          operator: Equal
+          value: ${{ values.nodeSelectorValue }}
+          effect: NoSchedule
+{% endif %}
+      volumes:
+        - name: system-key-ro
+          secret:
+            secretName: ${{ values.systemKeySecretName }}
+        - name: system-key
+          emptyDir: {}
+        - name: cato-script
+          configMap:
+            name: ${{ values.serviceName }}-script
+            defaultMode: 0555
+      initContainers:
+        - name: fix-key-permissions
+          image: alpine:3.19
+          command:
+            - sh
+            - -c
+            - cp /etc/ssh-ro/cato-system /etc/ssh/cato-system && chmod 600 /etc/ssh/cato-system
+          volumeMounts:
+            - name: system-key-ro
+              mountPath: /etc/ssh-ro
+              readOnly: true
+            - name: system-key
+              mountPath: /etc/ssh
+      containers:
+        - name: ${{ values.serviceName }}
+          image: __IMAGE__
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PORT
+              value: "8080"
+            - name: CATO_SCRIPT_PATH
+              value: /scripts/cato-admin.sh
+            - name: SYSTEM_KEY_PATH
+              value: /etc/ssh/cato-system
+          ports:
+            - name: http
+              containerPort: 8080
+          resources:
+            requests:
+              cpu: ${{ values.cpuRequest }}
+              memory: ${{ values.memoryRequest }}
+            limits:
+              cpu: 200m
+              memory: 256Mi
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 15
+          volumeMounts:
+            - name: system-key
+              mountPath: /etc/ssh
+            - name: cato-script
+              mountPath: /scripts

@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ${{ values.name }}
+  namespace: ${{ values.namespace }}
+  labels:
+    app: ${{ values.name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ${{ values.name }}
+  template:
+    metadata:
+      labels:
+        app: ${{ values.name }}
+{% if values.enableObservability %}
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "${{ values.port }}"
+        prometheus.io/path: "/metrics"
+{% endif %}
+    spec:
+      containers:
+        - name: ${{ values.name }}
+          image: your-registry/${{ values.name }}:latest
+          ports:
+            - name: http
+              containerPort: ${{ values.port }}
+          env:
+            - name: PORT
+              value: "${{ values.port }}"
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi

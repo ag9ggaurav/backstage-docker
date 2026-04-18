@@ -1,0 +1,49 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: ${{ values.name }}
+  namespace: ${{ values.namespace }}
+  labels:
+    app: ${{ values.name }}
+    release: kube-prometheus-stack
+spec:
+  groups:
+    - name: ${{ values.name }}.rules
+      interval: 30s
+      rules:
+        - alert: HighErrorRate
+          expr: |
+            rate(${{ values.name }}_http_requests_total{status_code=~"5.."}[5m])
+            / rate(${{ values.name }}_http_requests_total[5m]) > 0.05
+          for: 5m
+          labels:
+            severity: warning
+            service: ${{ values.name }}
+          annotations:
+            summary: "High error rate on ${{ values.name }}"
+            description: "Error rate is {{ $value | humanizePercentage }} over the last 5 minutes."
+
+        - alert: SlowResponses
+          expr: |
+            histogram_quantile(0.95,
+              rate(${{ values.name }}_http_duration_seconds_bucket[5m])
+            ) > 2
+          for: 10m
+          labels:
+            severity: warning
+            service: ${{ values.name }}
+          annotations:
+            summary: "Slow p95 response time on ${{ values.name }}"
+            description: "p95 latency is {{ $value }}s (threshold 2s)."
+
+        - alert: PodNotReady
+          expr: |
+            kube_pod_status_ready{namespace="${{ values.namespace }}",
+              pod=~"${{ values.name }}-.*", condition="true"} == 0
+          for: 5m
+          labels:
+            severity: critical
+            service: ${{ values.name }}
+          annotations:
+            summary: "${{ values.name }} pod not ready"
+            description: "Pod {{ $labels.pod }} has been not-ready for 5 minutes."

@@ -1,0 +1,15 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ${{ values.name }}
+  description: ${{ values.description }}
+{% if values.enableObservability %}
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "${{ values.port }}"
+    prometheus.io/path: "/metrics"
+{% endif %}
+spec:
+  type: ${{ values.serviceType }}
+  lifecycle: production
+  owner: user:guest

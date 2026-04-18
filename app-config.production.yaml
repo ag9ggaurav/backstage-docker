@@ -50,6 +50,42 @@ techdocs:
     type: 'local' # Alternatives - 'googleGcs' or 'awsS3'. Read documentation for using alternatives.
 
 integrations:
+
+# Proxy targets point to kube-prometheus-stack in-cluster DNS.
+# Overridden per-environment by app-config.k8s.yaml (k8s) or app-config.yaml (local dev).
+proxy:
+  '/prometheus/api':
+    target: http://kube-prometheus-stack-prometheus.prometheus.svc.cluster.local:9090/api/v1/
+    changeOrigin: true
+    secure: false
+  '/grafana/api':
+    target: http://kube-prometheus-stack-grafana.prometheus.svc.cluster.local:80/
+    changeOrigin: true
+    secure: false
+    headers:
+      Authorization: Bearer ${GRAFANA_TOKEN}
+
+prometheus:
+  proxyPath: /prometheus/api
+  uiUrl: http://localhost:30090
+
+grafana:
+  domain: http://localhost:31862
+  unifiedAlerting: false
+
+doraScorecard:
+  github:
+    token: ${GITHUB_TOKEN}
+    org: hymdall
+  database:
+    client: pg
+    connection:
+      host: ${POSTGRES_HOST:-localhost}
+      port: 5432
+      user: ${POSTGRES_USER:-backstage}
+      password: ${POSTGRES_PASSWORD:-backstage}
+  syncSchedule: '0 */6 * * *'
+
 catalog:
   import:
     entityFilename: catalog-info.yaml
@@ -75,3 +111,23 @@ catalog:
       target: ./examples/org.yaml
       rules:
         - allow: [User, Group]
+
+    - type: file
+      target: ./examples/templates/go-service/template.yaml
+      rules:
+        - allow: [Template]
+
+    - type: file
+      target: ./examples/templates/center-stage/template.yaml
+      rules:
+        - allow: [Template]
+
+    - type: file
+      target: ./examples/templates/cronjob-script/template.yaml
+      rules:
+        - allow: [Template]
+
+    - type: file
+      target: ./examples/templates/react-service/template.yaml
+      rules:
+        - allow: [Template]

@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+# Builds the Backstage image, loads it into rancher-desktop, and deploys to k8s.
+set -euo pipefail
+
+REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+IMAGE="backstage:local"
+NAMESPACE="backstage"
+
+cd "$REPO_ROOT"
+
+log() { echo "==> $*"; }
+
+# ── 1. Build ──────────────────────────────────────────────────────────────────
+log "Building Docker image ($IMAGE) — this takes ~10 min on first run..."
+docker build -t "$IMAGE" .
+
+# ── 2. Load into rancher-desktop containerd ───────────────────────────────────
+# When rancher-desktop uses the dockerd backend, k3s uses Docker as its CRI.
+# Images built with `docker build` are directly visible to k3s — no load needed.
+# When rancher-desktop uses the containerd backend, we must load into k8s.io ns.
+K3S_SOCK="/run/k3s/containerd/containerd.sock"
+if rdctl shell -- test -S "$K3S_SOCK" 2>/dev/null; then
+  log "containerd backend detected — loading image into k8s.io namespace..."
+  docker save "$IMAGE" | rdctl shell -- nerdctl --namespace k8s.io load
+else
+  log "dockerd backend detected — docker image is already visible to k3s (skipping load)."
+fi
+
+# ── 3. Optional: wire Grafana token ───────────────────────────────────────────
+if ! kubectl get secret backstage-secrets -n "$NAMESPACE" &>/dev/null 2>&1; then
+  log "Creating backstage-secrets (grafana-token empty by default)..."
+  GRAFANA_PASS=$(kubectl get secret -n prometheus kube-prometheus-stack-grafana \
+    -o jsonpath='{.data.admin-password}' 2>/dev/null | base64 -d || echo "")
+  GRAFANA_TOKEN=""
+  if [[ -n "$GRAFANA_PASS" ]]; then
+    # Create a Grafana service-account token via the API
+    log "Grafana admin password found — set GRAFANA_TOKEN manually if needed."
+  fi
+  kubectl create namespace "$NAMESPACE" --dry-run=client -o yaml | kubectl apply -f -
+  kubectl create secret generic backstage-secrets \
+    --namespace "$NAMESPACE" \
+    --from-literal=github-token="${GITHUB_TOKEN:-}" \
+    --from-literal=grafana-token="${GRAFANA_TOKEN:-}" \
+    --dry-run=client -o yaml | kubectl apply -f -
+fi
+
+# ── 4. Apply manifests ────────────────────────────────────────────────────────
+log "Applying k8s manifests..."
+kubectl apply -k "$REPO_ROOT/k8s/"
+
+# ── 5. Wait for rollout ───────────────────────────────────────────────────────
+log "Waiting for rollout (up to 3 min)..."
+kubectl rollout status deployment/backstage -n "$NAMESPACE" --timeout=180s
+
+echo ""
+echo "✅  Backstage  → http://localhost:30007"
+echo "📊  Prometheus → http://localhost:30090"
+echo "📈  Grafana    → http://localhost:31862   (admin / see below)"
+echo ""
+echo "Grafana admin password:"
+kubectl get secret -n prometheus kube-prometheus-stack-grafana \
+  -o jsonpath='{.data.admin-password}' | base64 -d && echo

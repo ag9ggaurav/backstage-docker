@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backstage
+  namespace: backstage
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backstage
+  template:
+    metadata:
+      labels:
+        app: backstage
+    spec:
+      containers:
+        - name: backstage
+          image: backstage:local
+          imagePullPolicy: Never
+          ports:
+            - name: http
+              containerPort: 7007
+          command:
+            - node
+            - packages/backend
+            - --config
+            - app-config.yaml
+            - --config
+            - app-config.production.yaml
+            - --config
+            - /etc/backstage/app-config.k8s.yaml
+          env:
+            - name: NODE_ENV
+              value: production
+            - name: BACKSTAGE_TOKEN
+              value: local-dev-token
+            - name: GITHUB_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: backstage-secrets
+                  key: github-token
+                  optional: true
+            - name: GRAFANA_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: backstage-secrets
+                  key: grafana-token
+                  optional: true
+          volumeMounts:
+            - name: k8s-config
+              mountPath: /etc/backstage
+          livenessProbe:
+            httpGet:
+              path: /healthcheck
+              port: 7007
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /healthcheck
+              port: 7007
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 200m
+              memory: 512Mi
+            limits:
+              cpu: 1000m
+              memory: 1Gi
+      volumes:
+        - name: k8s-config
+          configMap:
+            name: backstage-k8s-config

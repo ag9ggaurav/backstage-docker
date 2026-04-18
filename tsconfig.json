@@ -8,7 +8,7 @@
     "plugins/*/dev",
     "plugins/*/migrations"
   ],
-  "exclude": ["node_modules"],
+  "exclude": [".yarn", ".pnp", "node_modules"],
   "compilerOptions": {
     "outDir": "dist-types",
     "rootDir": "."

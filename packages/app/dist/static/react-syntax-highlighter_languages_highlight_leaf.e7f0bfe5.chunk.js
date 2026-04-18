@@ -1,0 +1,2 @@
+(self.webpackChunkapp=self.webpackChunkapp||[]).push([["531"],{96447(e){e.exports=function(e){return{name:"Leaf",contains:[{className:"function",begin:"#+[A-Za-z_0-9]*\\(",end:/ \{/,returnBegin:!0,excludeEnd:!0,contains:[{className:"keyword",begin:"#+"},{className:"title",begin:"[A-Za-z_][A-Za-z_0-9]*"},{className:"params",begin:"\\(",end:"\\)",endsParent:!0,contains:[{className:"string",begin:'"',end:'"'},{className:"variable",begin:"[A-Za-z_][A-Za-z_0-9]*"}]}]}]}}}}]);
+//# sourceMappingURL=react-syntax-highlighter_languages_highlight_leaf.e7f0bfe5.chunk.js.map

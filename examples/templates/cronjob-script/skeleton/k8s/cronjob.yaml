@@ -1,0 +1,33 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: ${{ values.name }}
+  namespace: ${{ values.namespace }}
+  labels:
+    app: ${{ values.name }}
+spec:
+  schedule: "${{ values.schedule }}"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 1
+      activeDeadlineSeconds: 3600
+      template:
+        metadata:
+          labels:
+            app: ${{ values.name }}
+        spec:
+          restartPolicy: Never
+          containers:
+            - name: ${{ values.name }}
+              image: your-registry/${{ values.name }}:latest
+              imagePullPolicy: Always
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 64Mi
+                limits:
+                  cpu: 500m
+                  memory: 256Mi
